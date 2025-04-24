@@ -17,7 +17,7 @@ const Login = () => {
         <p className="text-center text-gray">Thousand of people are using silent moon  
         for meditation and yoga classes.</p>
         </div>
-        <Button text="Sign up"/>
+        <Link to={"/signup"}><Button text="Sign up"/></Link>
         <div className="flex flex-row justify-center gap-3 tracking-widest">
             <p className="text-gray uppercase">Already have an account?</p>
             <Link to={"/signin"} className="text-pink uppercase">Log in</Link>

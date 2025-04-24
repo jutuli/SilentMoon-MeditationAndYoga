@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "../components/Button";
 
 const Welcome = () => {
@@ -9,7 +10,7 @@ const Welcome = () => {
             <p className="absolute top-0 left-1/2 transform -translate-x-1/2 pt-5 text-white uppercase tracking-widest font-medium">Silent moon</p>
         </article>
         <div className="px-5 py-15">
-        <Button text="Get started"/>
+        <Link to="/home"><Button text="Get started"/></Link>
         </div>
         </>
      );
