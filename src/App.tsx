@@ -10,13 +10,17 @@ import Yoga from "./pages/Yoga";
 import Meditate from "./pages/Meditate";
 import Music from "./pages/Music";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import SignIn from "./pages/SignIn";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
+        <Route index element={<Login />} />
         <Route path="yoga" element={<Yoga />} />
+        <Route path="signin" element={<SignIn />} />
+        <Route path="home" element={<Home />} />
         <Route path="meditate" element={<Meditate />} />
         <Route path="music" element={<Music />} />
         <Route path="profile" element={<Profile />} />
