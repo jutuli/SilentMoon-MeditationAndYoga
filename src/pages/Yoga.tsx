@@ -1,5 +1,11 @@
+import CategoryFilter from "../components/CategoryFilter";
+
 const Yoga = () => {
-  return <div>Yoga</div>;
+  return (
+    <div>
+      <CategoryFilter type="yoga" />
+    </div>
+  );
 };
 
 export default Yoga;
