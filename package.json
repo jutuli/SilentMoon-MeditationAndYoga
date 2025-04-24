@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "supa-base": "supabase gen types typescript --project-id tezngzsgovamomffxcqu > ./src/utils/database.type.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -20,6 +21,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.1",
+    "supabase": "^2.22.4",
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
