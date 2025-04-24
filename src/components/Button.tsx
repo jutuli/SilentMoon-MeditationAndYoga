@@ -7,7 +7,7 @@ const Button = ({ text, onClick }: IButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="bg-pink text-cream w-full cursor-pointer rounded-full py-4 uppercase"
+      className="bg-pink text-cream w-full cursor-pointer rounded-full py-4 uppercase tracking-widest"
     >
       {text}
     </button>
