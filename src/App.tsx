@@ -12,6 +12,8 @@ import Music from "./pages/Music";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/Signup";
+import Welcome from "./pages/Welcome";
 
 function App() {
   const router = createBrowserRouter(
@@ -20,6 +22,8 @@ function App() {
         <Route index element={<Login />} />
         <Route path="yoga" element={<Yoga />} />
         <Route path="signin" element={<SignIn />} />
+        <Route path="signup" element={<SignUp />} />
+        <Route path="welcome" element={<Welcome />} />
         <Route path="home" element={<Home />} />
         <Route path="meditate" element={<Meditate />} />
         <Route path="music" element={<Music />} />
