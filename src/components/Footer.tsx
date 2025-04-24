@@ -40,14 +40,14 @@ const Footer = () => {
             >
               <div
                 className={`flex aspect-square w-12 items-center justify-center rounded-2xl ${
-                  isActive ? "bg-old-pink text-light-yellow" : "text-dark-gray"
+                  isActive ? "bg-pink text-cream" : "text-dark-green"
                 }`}
               >
                 <FontAwesomeIcon icon={icon.icon} className="text-xl" />
               </div>
               <p
                 className={`text-md mt-1 ${
-                  isActive ? "text-old-pink" : "text-dark-gray"
+                  isActive ? "text-pink" : "text-dark-green"
                 }`}
               >
                 {icon.label}
