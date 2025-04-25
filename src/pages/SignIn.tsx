@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import RoundButton from "../components/RoundButton";
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faSun } from '@fortawesome/free-solid-svg-icons';
 
 
 const SignIn = () => {
