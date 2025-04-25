@@ -70,8 +70,7 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     async function getYogaList() {
       // Endpoint reference : https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
       return (await fetchWebApi("v1/playlists/5DaGMB4hFyXo2n8nafc2DD", "GET"))
-        ;
-        //.tracks.items
+        .tracks.items;
     }
 
     const yogaTracks = await getYogaList();
