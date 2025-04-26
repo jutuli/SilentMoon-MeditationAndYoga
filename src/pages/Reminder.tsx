@@ -1,3 +1,4 @@
+import Button from "../components/Button";
 import DayPicker from "../components/DayPicker";
 import TimePicker from "../components/TimePicker";
 
@@ -23,6 +24,8 @@ const Reminder = () => {
         </p>
       </article>
       <DayPicker />
+      <Button text="Save" />
+      <button className="text-pink uppercase">No Thanks</button>
     </section>
   );
 };
