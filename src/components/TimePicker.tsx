@@ -16,8 +16,8 @@ const TimePicker = () => {
   const [selectedMinute, setSelectedMinute] = useState("30");
 
   return (
-    <div className="time-picker flex w-full items-center justify-center">
-      <div className="w-80 rounded-lg bg-gray-100 p-8 shadow-md">
+    <div className="time-picker my-4 flex w-full items-center justify-center">
+      <div className="w-full rounded-lg bg-gray-100 p-8 shadow-md">
         <div className="flex justify-center gap-4">
           <select
             value={selectedHour}
