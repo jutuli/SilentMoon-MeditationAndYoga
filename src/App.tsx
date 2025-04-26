@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/Signup";
 import Welcome from "./pages/Welcome";
+import Reminder from "./pages/Reminder";
 
 function App() {
   const router = createBrowserRouter(
@@ -28,6 +29,7 @@ function App() {
         <Route path="meditate" element={<Meditate />} />
         <Route path="music" element={<Music />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="reminder" element={<Reminder />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Route>,
     ),
