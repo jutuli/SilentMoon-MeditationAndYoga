@@ -7,85 +7,108 @@ import { useMainContext } from "../context/MainProvider";
 import supabase from "../utils/supabase";
 
 const SignUp = () => {
+  const { user, setUser, setIsLoggedIn } = useMainContext();
 
-    const navigate = useNavigate()
+  const userNameRef = useRef<HTMLInputElement>(null);
+  const userSurNameRef = useRef<HTMLInputElement>(null);
+  const userEmailRef = useRef<HTMLInputElement>(null);
+  const userPwRef = useRef<HTMLInputElement>(null);
 
-    const {user, setUser, setIsLoggedIn} = useMainContext()
+  const navigate = useNavigate();
 
-    const userNameRef = useRef<HTMLInputElement>(null)
-    const userSurNameRef = useRef<HTMLInputElement>(null)
-    const userEmailRef = useRef<HTMLInputElement>(null)
-    const userPwRef = useRef<HTMLInputElement>(null)
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+    const userName = userNameRef.current?.value || "";
+    const userSurName = userSurNameRef.current?.value || "";
+    const userEmail = userEmailRef.current?.value || "";
+    const userPw = userPwRef.current?.value || "";
 
-        const userName = userNameRef.current?.value || ""
-        const userSurName = userSurNameRef.current?.value || ""
-        const userEmail = userEmailRef.current?.value || ""
-        const userPw = userPwRef.current?.value || ""
+    console.log(userName);
+    console.log(userSurName);
+    console.log(userEmail);
+    console.log(userPw);
 
-        console.log(userName);
-        console.log(userSurName);
-        console.log(userEmail);
-        console.log(userPw);
-
-        try {
-            const {data, error} = await supabase
-            .auth
-            .signUp({
-                email: userEmail,
-                password: userPw,
-                options: {
-                    data: {
-                        first_name: userName,
-                        last_name: userSurName
-                    }
-                }
-            })
-            console.log("Userdata:", data);
-            if (error) {
-                console.log("SignUp hat nicht geklappt", error);
-            } else {
-                console.log(data);
-                await setIsLoggedIn(true)
-                navigate("/welcome")
-            }
-        } catch (e) {
-            console.log(e);
-        }
-
-        
-
-        if (user) {
-            setUser({
-                ...user,
-                first_name: userName,
-                last_name: userSurName,
-                email: userEmail,
-                password: userPw
-            })
-        }
-        //hier erstmal Null
-        console.log(user);
+    if (user) {
+      setUser({
+        ...user,
+        email: userEmail,
+        first_name: userName,
+        last_name: userSurName,
+        password: userPw,
+      });
     }
 
-    return ( 
-        <>
-        <section className="p-5">
-            <RoundButton style="border border-cream border-2 text-dark-green" content={faArrowLeft} onClick={()=>navigate(-1)}/>
-        <h1 className="text-3xl font-bold text-center text-dark-green py-15 tracking-widest ">Create your account</h1>
-        <form onSubmit={handleSignUp} className="flex flex-col gap-3">
-        <input className="tracking-widest border border-pink w-full cursor-pointer rounded-full py-4 uppercase text-center" type="text" placeholder="Name" ref={userNameRef}/>
-        <input className="tracking-widest border border-pink w-full cursor-pointer rounded-full py-4 uppercase text-center" type="text" placeholder="Surname" ref={userSurNameRef}/>
-            <input className="tracking-widest border border-pink w-full cursor-pointer rounded-full py-4 uppercase text-center" type="email" placeholder="Email" ref={userEmailRef}/>
-            <input className="tracking-widest border border-pink w-full cursor-pointer text-center rounded-full py-4 uppercase" type="password" placeholder="Password" ref={userPwRef}/>
-            <Button text="Register"/>
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: userEmail,
+        password: userPw,
+        options: {
+          data: {
+            email: userEmail,
+            first_name: userName,
+            last_name: userSurName,
+          },
+        },
+      });
+      console.log("Userdata:", data);
 
+      if (error) {
+        console.warn("SignUp hat nicht geklappt", error);
+      } else {
+        console.log(data);
+        setIsLoggedIn(true);
+        navigate("/welcome");
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+
+    //hier erstmal Null
+    console.log(user);
+  };
+
+  return (
+    <>
+      <section className="p-5">
+        <RoundButton
+          style="border border-cream border-2 text-dark-green"
+          content={faArrowLeft}
+          onClick={() => navigate(-1)}
+        />
+        <h1 className="text-dark-green py-15 text-center text-3xl font-bold tracking-widest">
+          Create your account
+        </h1>
+        <form onSubmit={handleSignUp} className="flex flex-col gap-3">
+          <input
+            className="border-pink w-full cursor-pointer rounded-full border py-4 text-center tracking-widest uppercase"
+            type="text"
+            placeholder="Name"
+            ref={userNameRef}
+          />
+          <input
+            className="border-pink w-full cursor-pointer rounded-full border py-4 text-center tracking-widest uppercase"
+            type="text"
+            placeholder="Surname"
+            ref={userSurNameRef}
+          />
+          <input
+            className="border-pink w-full cursor-pointer rounded-full border py-4 text-center tracking-widest uppercase"
+            type="email"
+            placeholder="Email"
+            ref={userEmailRef}
+          />
+          <input
+            className="border-pink w-full cursor-pointer rounded-full border py-4 text-center tracking-widest uppercase"
+            type="password"
+            placeholder="Password"
+            ref={userPwRef}
+          />
+          <Button text="Register" />
         </form>
-        </section>
-        </>
-     );
-}
- 
+      </section>
+    </>
+  );
+};
+
 export default SignUp;
