@@ -33,8 +33,8 @@ function App() {
         <Route path="music" element={<Music />} />
         <Route path="profile" element={<Profile />} />
         <Route path="reminder" element={<Reminder />} />
-        <Route path="meditatedetail" element={<MeditateDetail />} />
-        <Route path="yogadetail" element={<YogaDetail />} />
+        <Route path="meditate/:meditateParams" element={<MeditateDetail />} />
+        <Route path="yoga/:yogaParams" element={<YogaDetail />} />
         <Route path="initialfilter" element={<InitialFiltering />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Route>,

@@ -1,7 +1,7 @@
 interface IDetailTextProps {
-    title: string,
-    type: string,
-    desc: string
+    title: string | undefined,
+    type: string | undefined,
+    desc: string | undefined
 }
 
 
