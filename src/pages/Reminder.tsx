@@ -10,8 +10,8 @@ const Reminder = () => {
         <h2 className="text-dark-green text-lg font-bold tracking-wider">
           What time would you like to meditate?
         </h2>
-        <p className="text-gray text-xs">
-          Any time you can choose but We recommend first thing in th morning.
+        <p className="text-gray text-sm">
+          Any time you can choose but we recommend first thing in the morning.
         </p>
       </article>
       <TimePicker />

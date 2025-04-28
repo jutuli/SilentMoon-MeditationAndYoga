@@ -17,6 +17,7 @@ import Welcome from "./pages/Welcome";
 import Reminder from "./pages/Reminder";
 import MeditateDetail from "./pages/MeditateDetail";
 import YogaDetail from "./pages/YogaDetail";
+import InitialFiltering from "./pages/InitialFiltering";
 
 function App() {
   const router = createBrowserRouter(
@@ -34,6 +35,7 @@ function App() {
         <Route path="reminder" element={<Reminder />} />
         <Route path="meditatedetail" element={<MeditateDetail />} />
         <Route path="yogadetail" element={<YogaDetail />} />
+        <Route path="initialfilter" element={<InitialFiltering />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Route>,
     ),
