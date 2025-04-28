@@ -35,13 +35,13 @@ const Meditate = () => {
 
       <div className="grid grid-cols-2 gap-3">
         {session?.map((entry) => (
-          <div key={entry.id} className="">
+          <>
             {entry.media_type === "soundcloud" && (
-              <div className="">
+              <div>
                 <SingleCart session={entry} key={entry.id} />
               </div>
-            )}{" "}
-          </div>
+            )}
+          </>
         ))}
       </div>
     </div>

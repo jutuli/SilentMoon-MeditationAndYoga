@@ -64,15 +64,15 @@ const Yoga = () => {
       <CategoryFilter type="yoga" />
       <SearchField />
 
-      <div className="mx-3 grid grid-cols-2 gap-2">
+      <div className="mx-5 grid grid-cols-2 gap-2">
         {session?.map((entry) => (
-          <div key={entry.id} className="">
+          <>
             {entry.media_type === "youtube" && (
-              <div className="">
+              <div>
                 <SingleCart session={entry} key={entry.id} />
               </div>
-            )}{" "}
-          </div>
+            )}
+          </>
         ))}
       </div>
     </div>

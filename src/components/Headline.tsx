@@ -10,8 +10,8 @@ const Headline: React.FC<Props> = ({ name, description }) => {
     <>
       <SilentMoon />
       <div className="text-center">
-        <h1 className="mt-14 mb-7 text-4xl">{name}</h1>
-        <p className="text-light-green mb-12 text-base">{description}</p>
+        <h1 className="mt-14 mb-7 text-4xl font-bold text-dark-green tracking-wider">{name}</h1>
+        <p className="text-gray mb-12 text-base">{description}</p>
       </div>
     </>
   );
