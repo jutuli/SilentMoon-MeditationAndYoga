@@ -1,13 +1,11 @@
-import axios from "axios";
 import {
   createContext,
   ReactNode,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import { IUser } from "../interfaces/IUser";
-import supabase from "../utils/supabase";
+
 
 interface IMainContext {
   user: IUser | null;
