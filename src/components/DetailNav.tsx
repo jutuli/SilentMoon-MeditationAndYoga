@@ -1,4 +1,4 @@
-import { faArrowLeft, faDownload, faHeart, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faHeart, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import RoundButton from "./RoundButton";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,10 @@ const DetailNav = ({buttonLeft}: IDetailNavProps) => {
 
     const navigate = useNavigate()
 
+    const handleSave = () => {
+        console.log("click");
+    }
+
     return ( 
         <>
         <article className="absolute top-0 flex justify-between w-full p-5">
@@ -18,7 +22,7 @@ const DetailNav = ({buttonLeft}: IDetailNavProps) => {
                     <RoundButton content={buttonLeft} style="bg-cream text-dark-green" onClick={()=>navigate(-1)}/>
                     </div>
                     <div className="flex gap-3">
-                    <RoundButton content={faHeart} style="bg-pink text-cream"/>
+                    <RoundButton content={faHeart} style="bg-pink text-cream" onClick={handleSave}/>
                     <RoundButton content={faDownload} style="bg-pink text-cream"/>
                     </div>
                 </article>

@@ -29,20 +29,27 @@ const Meditate = () => {
         name="Meditate"
         description="Audio-only meditation techniques to help you minimize your screen time and practice on the go."
       />
-      <CategoryFilter type="meditate" />
+      <CategoryFilter type="8d946553-91d1-4307-915a-a2b5329769e2" />
 
       <SearchField />
 
       <div className="grid grid-cols-2 gap-3">
-        {session?.map((entry) => (
-          <>
-            {entry.media_type === "soundcloud" && (
-              <div>
-                <SingleCart session={entry} key={entry.id} />
-              </div>
-            )}
-          </>
-        ))}
+      {session?.map((entry, index) => {
+    // .sort(() => Math.random() - 0.5)
+  
+    const isFirstOrFourth = ((index) % 4 === 0 || (index) % 4 === 3);
+    
+    return (
+      entry.media_type === "soundcloud" && (
+        <div key={entry.id} className={isFirstOrFourth ? "col-span-2" : ""}>
+          <SingleCart
+            session={entry}
+            style={isFirstOrFourth ? "w-full h-80" : "w-full h-50"}
+          />
+        </div>
+      )
+    );
+  })}
       </div>
     </div>
   );
