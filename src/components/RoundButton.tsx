@@ -1,20 +1,20 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
+
 
 interface IRoundButtonProps {
     style: string
     content: IconProp
+    onClick?: () => void
 }
 
-const RoundButton = ({style, content}: IRoundButtonProps) => {
+const RoundButton = ({style, content, onClick}: IRoundButtonProps) => {
 
-    const navigate = useNavigate()
 
     return ( 
         
     <>
-    <button onClick={()=>navigate(-1)} className={`${style} rounded-full px-3 py-2`}><FontAwesomeIcon icon={content} /></button>
+    <button onClick={onClick} className={`${style} rounded-full w-12 h-12 flex justify-center items-center cursor-pointer`}><FontAwesomeIcon icon={content} /></button>
     </> );
 }
  

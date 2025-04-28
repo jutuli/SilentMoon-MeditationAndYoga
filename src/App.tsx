@@ -15,6 +15,8 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/Signup";
 import Welcome from "./pages/Welcome";
 import Reminder from "./pages/Reminder";
+import MeditateDetail from "./pages/MeditateDetail";
+import YogaDetail from "./pages/YogaDetail";
 
 function App() {
   const router = createBrowserRouter(
@@ -30,6 +32,8 @@ function App() {
         <Route path="music" element={<Music />} />
         <Route path="profile" element={<Profile />} />
         <Route path="reminder" element={<Reminder />} />
+        <Route path="meditatedetail" element={<MeditateDetail />} />
+        <Route path="yogadetail" element={<YogaDetail />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Route>,
     ),

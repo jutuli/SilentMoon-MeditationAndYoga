@@ -2,7 +2,7 @@ const SilentMoon = () => {
   return (
     <>
       <article className="">
-        <p className="text-dark-green mt-7 text-center uppercase">
+        <p className="text-dark-green mt-7 text-center uppercase tracking-widest">
           Silent Moon
         </p>
       </article>
