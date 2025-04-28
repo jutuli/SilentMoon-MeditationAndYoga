@@ -33,7 +33,7 @@ const Meditate = () => {
 
       <SearchField />
 
-      <div className="flex flex-1/2 flex-col justify-evenly">
+      <div className="grid grid-cols-2 gap-3">
         {session?.map((entry) => (
           <div key={entry.id} className="">
             {entry.media_type === "soundcloud" && (

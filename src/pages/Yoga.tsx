@@ -40,10 +40,9 @@ export interface ISession_tags {
 }
 
 const Yoga = () => {
-  // const [category, setCategory] = useState<ICategory[] | undefined>();
-  // const [types, setTypes] = useState<ITypes[] | undefined>();
+ 
   const [session, setSession] = useState<ISession[] | undefined>();
-  // const [tags, setTags] = useState<ITags[] | undefined>();
+  
 
   useEffect(() => {
     const fetchData = async () => {

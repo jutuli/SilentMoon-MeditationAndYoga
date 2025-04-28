@@ -28,7 +28,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="w-full bg-white px-4 py-2 shadow-neutral-200 drop-shadow-xl">
+    <footer className="fixed bottom-0 w-full bg-white px-4 py-2 shadow-neutral-200 drop-shadow-xl">
       <ul className="flex items-center justify-between">
         {navIcons.map((icon) => {
           const isActive = activeIcon === icon.name;
