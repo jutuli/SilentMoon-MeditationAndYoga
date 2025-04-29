@@ -4,52 +4,23 @@ import Headline from "../components/Headline";
 import SearchField from "../components/SearchField";
 import supabase from "../utils/supabase";
 import { SingleCart } from "../components/SingleCard";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { ISession } from "../interfaces/ISession";
+import TimeAndLevelFilter from "../components/TimeAndLevelFilter";
 
-export interface ICategory {
-  id: string;
-  name: string;
-  icon: IconProp;
-  type_id: string;
-}
-
-export interface ITypes {
-  id: string;
-  name: string;
-}
-
-export interface ISession {
-  id: string;
-  category_id: ICategory;
-  title: string;
-  description: string;
-  duration: number;
-  image_url: string;
-  madia_url: string;
-  media_type: string;
-}
-
-export interface ITags {
-  id: string;
-  name: string;
-}
-
-export interface ISession_tags {
-  id: String;
-  session_id: ISession;
-  tag_id: ITags;
-}
 
 const Yoga = () => {
  
   const [sessions, setSessions] = useState<ISession[] | undefined>();
+  const [activeFilter, setActiveFilter] = useState<string | "all" | "favourites" | null>("all");
+  const [activeTimeFilter, setActiveTimeFilter] = useState<number | null>(null);
+  const [activeLevelFilter, setActiveLevelFilter] = useState<string | null>(null);
   
 
   useEffect(() => {
     const fetchData = async () => {
       const resp = await supabase
         .from("sessions")
-        .select("*,categories(*,type_id)");
+        .select("*, session_tags(*, tags(*))");
 
       if (resp.data) {
         setSessions(resp.data as unknown as ISession[]);
@@ -59,30 +30,48 @@ const Yoga = () => {
     fetchData();
   }, []);
 
+  //!Diese Funktion für die anderen Button schreiben
+  const handleFilterChange = (filter: string | null) => {
+    setActiveFilter(filter);
+  };
+
+  const handleTimeFilterChange = (filter: number | null | undefined) => {
+    setActiveTimeFilter(filter ?? null);
+  };
+
+  const handleLevelFilterChange = (filter: string | null | undefined) => {
+    setActiveLevelFilter(filter ?? null);
+  };
+
+  const filteredSessions = sessions?.filter((session) => {
+    const passesCategory = activeFilter === "all" || session.category_id === activeFilter;
+    const passesLevel = !activeLevelFilter || session.level === activeLevelFilter;
+
+    const duration = session.duration;
+    const passesTime =
+      !activeTimeFilter ||
+      (activeTimeFilter === 1 && duration < 15) ||
+      (activeTimeFilter === 2 && duration >= 15 && duration < 27) ||
+      (activeTimeFilter === 3 && duration >= 27);
+
+    return passesCategory && passesLevel && passesTime;
+  });
+
+
   return (
-    <>
+    <section className="pb-25">
       <div className="mx-5">
       <Headline name="Yoga" description="Find your inner zen from annywhere." />
-      <CategoryFilter type="431a7ad8-a08b-429e-820c-24c53c240990" />
+      <CategoryFilter type="431a7ad8-a08b-429e-820c-24c53c240990" onFilterChange={handleFilterChange} />
+      <TimeAndLevelFilter
+          levelChange={handleLevelFilterChange}
+          timeChange={handleTimeFilterChange}
+        />
       <SearchField />
       </div>
 
-
-      {/* <div className="mx-5 grid grid-cols-2 gap-4">
-        {session?.map((entry, index) => (
-          <>
-            {entry.media_type === "youtube" && (
-              <div>
-                <SingleCart session={entry} key={entry.id} style={index % 2 === 0 ? `w-full h-70` : "w-full h-80"} />
-                <p>{index}</p>
-              </div>
-            )}
-          </>
-        ))}
-      </div> */}
-
 <div className="mx-5 grid grid-cols-2 gap-4">
-  {sessions?.sort(() => Math.random() - 0.5).map((entry, index) => {
+  {filteredSessions?.sort(() => Math.random() - 0.5).map((entry) => {
     // .sort(() => Math.random() - 0.5)
     //oben könnte man einfügen damit sie nicht nach unseren Kategorien sortiert sind, dann kommt das aber mit der index logik in die Quere
 
@@ -105,7 +94,7 @@ const Yoga = () => {
     );
   })}
 </div>
-    </>
+    </section>
   );
 };
 

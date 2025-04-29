@@ -1,33 +1,38 @@
-import { faDownload, faHeart, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faHeart,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import RoundButton from "./RoundButton";
-import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
 
 interface IDetailNavProps {
-    buttonLeft: IconDefinition
+  buttonLeft: IconDefinition;
+  onBackClick: () => void;
+  onFavoriteClick: () => void;
 }
 
-const DetailNav = ({buttonLeft}: IDetailNavProps) => {
+const DetailNav = ({
+  buttonLeft,
+  onBackClick,
+  onFavoriteClick,
+}: IDetailNavProps) => {
+  return (
+    <>
+      <article className="absolute top-0 flex w-full justify-between p-5">
+        <RoundButton
+          content={buttonLeft}
+          style="bg-cream text-dark-green"
+          onClick={onBackClick}
+        />
+        <RoundButton
+          content={faHeart}
+          style="bg-pink text-cream"
+          onClick={onFavoriteClick}
+        />
+      </article>
+    </>
+  );
+};
 
-    const navigate = useNavigate()
-
-    const handleSave = () => {
-        console.log("click");
-    }
-
-    return ( 
-        <>
-        <article className="absolute top-0 flex justify-between w-full p-5">
-                    <div className="">
-                    <RoundButton content={buttonLeft} style="bg-cream text-dark-green" onClick={()=>navigate(-1)}/>
-                    </div>
-                    <div className="flex gap-3">
-                    <RoundButton content={faHeart} style="bg-pink text-cream" onClick={handleSave}/>
-                    <RoundButton content={faDownload} style="bg-pink text-cream"/>
-                    </div>
-                </article>
-        </>
-     );
-}
- 
 export default DetailNav;

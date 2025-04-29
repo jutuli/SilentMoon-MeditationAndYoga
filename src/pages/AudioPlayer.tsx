@@ -4,14 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
   faPause,
-  faTimes,
+  faX,
   faForward,
   faBackward,
 } from "@fortawesome/free-solid-svg-icons";
-import RoundButton from "../components/RoundButton";
+import supabase from "../utils/supabase";
+import { useParams } from "react-router-dom";
+import DetailNav from "../components/DetailNav";
 
 const AudioPlayer = () => {
   const navigate = useNavigate();
+  const { meditateParams: sessionId, musicId } = useParams();
+
+  const isMeditation = !!sessionId ;
+const itemId = sessionId || musicId;
 
   // Ref für den SoundCloud-Player (unsichtbar im Hintergrund)
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -23,14 +29,40 @@ const AudioPlayer = () => {
   const [duration, setDuration] = useState(0);
   const [uploader, setUploader] = useState(""); // Name des Künstlers
   const [officialTitle, setOfficialTitle] = useState(""); // Original Tracktitel auf SoundCloud
+  const [trackUrl, setTrackUrl] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
 
-  // Hard Coded Beispiel-Track
-  const trackUrl =
-    "https://soundcloud.com/davidji/setting-the-trajectory-of-my-day-guided-meditation";
-  const title = "Focus Attention";
+  // Fetch Session-Daten von Supabase
+  const fetchTrack = async () => {
+    if (isMeditation) {
+      const { data, error } = await supabase
+        .from("sessions")
+        .select("media_url, title")
+        .eq("id", itemId)
+        .single();
+      
+      if (data) {
+        setTrackUrl(data.media_url);
+        setTitle(data.title);
+      }
+    } else {
+      const { data, error } = await supabase
+        .from("music")
+        .select("media_url, title")
+        .eq("id", itemId)
+        .single();
+  
+      if (data) {
+        setTrackUrl(data.media_url);
+        setTitle(data.title);
+      }
+    }
+  };
 
   // Script-Element für SoundCloud Player API erzeugen und laden
   useEffect(() => {
+    if (!itemId) return; // Warten, bis die Track-URL geladen ist
+    fetchTrack()
     const script = document.createElement("script");
     script.src = "https://w.soundcloud.com/player/api.js";
     script.async = true;
@@ -67,6 +99,7 @@ const AudioPlayer = () => {
               });
             }
           }, 1000);
+          newWidget.play(); // Player automatisch starten
         });
 
         // Abspielen/Anhalten Status speichern
@@ -85,7 +118,7 @@ const AudioPlayer = () => {
         document.body.removeChild(script);
       }
     };
-  }, []);
+  }, [itemId]);
 
   // Toggle von Play & Pause
   const togglePlayPause = () => {
@@ -123,58 +156,77 @@ const AudioPlayer = () => {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
+  // Session als Favorit markieren
+  const handleFavoriteClick = () => {
+    console.log("Track favorited");
+  };
+
   return (
-    <div className="bg-cream relative flex min-h-screen flex-col items-center justify-center p-6">
-      <div className="absolute top-4 left-4">
-        <RoundButton
-          content={faTimes}
-          style="bg-cream text-dark-green border border-dark-green"
-          onClick={() => navigate(-1)}
+    <div className="bg-cream relative z-0 flex min-h-screen flex-col items-center justify-center overflow-hidden">
+      {/* Kreise im Hintergrund */}
+      <div className="bg-light-cream absolute top-[-100px] left-[-100px] z-1 h-[300px] w-[300px] rounded-full opacity-50"></div>
+      <div className="bg-light-cream absolute top-[20%] right-[-80px] z-1 h-[250px] w-[250px] rounded-full opacity-20"></div>
+      <div className="bg-light-cream absolute bottom-[-150px] left-[30%] z-1 h-[400px] w-[400px] rounded-full opacity-30"></div>
+      <div className="z-2">
+        {/* Back Button */}
+        <DetailNav
+          buttonLeft={faX}
+          onBackClick={() => navigate(-1)}
+          onFavoriteClick={() => {
+            handleFavoriteClick;
+          }}
         />
-      </div>
-      <h1 className="text-dark-green mb-2 text-3xl font-bold">{title}</h1>
-      <p className="text-gray mb-6 text-sm">7 DAYS OF CALM</p>
-      <div className="flex flex-col items-center">
-        <div className="flex items-center justify-center gap-8">
-          <button onClick={() => skip(-15)} className="text-dark-green">
-            <FontAwesomeIcon icon={faBackward} size="2x" />
-          </button>
-          <button
-            onClick={togglePlayPause}
-            className="bg-dark-green text-cream flex h-16 w-16 items-center justify-center rounded-full"
-          >
-            <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} size="2x" />
-          </button>
-          <button onClick={() => skip(15)} className="text-dark-green">
-            <FontAwesomeIcon icon={faForward} size="2x" />
-          </button>
-        </div>
-        <div className="mt-8 w-full">
-          <input
-            type="range"
-            min="0"
-            max={duration}
-            value={currentTime}
-            onChange={handleProgressBarInput}
-            className="accent-dark-green bg-light-green h-2 w-full appearance-none rounded-lg"
-          />
-          <div className="text-gray mt-2 flex justify-between text-xs">
-            <span>{formatTime(currentTime)}</span>
-            <span>{formatTime(duration)}</span>
+        <div className="p-10 text-center">
+          <h1 className="text-dark-green mb-15 text-3xl font-bold">
+            {title || "Loading..."}
+          </h1>
+          <div className="flex flex-col items-center">
+            <div className="flex items-center justify-center gap-8">
+              <button onClick={() => skip(-15)} className="text-dark-green">
+                <FontAwesomeIcon icon={faBackward} size="2x" />
+              </button>
+              <button
+                onClick={togglePlayPause}
+                className="bg-dark-green text-cream flex h-16 w-16 items-center justify-center rounded-full cursor-pointer"
+              >
+                <FontAwesomeIcon
+                  icon={isPlaying ? faPause : faPlay}
+                  size="2x"
+                />
+              </button>
+              <button onClick={() => skip(15)} className="text-dark-green">
+                <FontAwesomeIcon icon={faForward} size="2x" />
+              </button>
+            </div>
+            <div className="mt-8 w-full">
+              <input
+                type="range"
+                min="0"
+                max={duration}
+                value={currentTime}
+                onChange={handleProgressBarInput}
+                className="accent-dark-green bg-light-green h-2 w-full appearance-none rounded-lg"
+              />
+              <div className="text-gray mt-2 flex justify-between text-xs">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+            </div>
           </div>
+          <p className="text-gray mt-6 p-5 text-xs">
+            by <strong>{uploader || "..."}</strong> — "{officialTitle || "..."}"
+            on{" "}
+            <a
+              href={trackUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-dark-green underline"
+            >
+              SoundCloud
+            </a>
+          </p>
         </div>
       </div>
-      <p className="text-gray mt-6 text-xs">
-        by <strong>{uploader || "..."}</strong> — "{officialTitle || "..."}" on{" "}
-        <a
-          href={trackUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-dark-green underline"
-        >
-          SoundCloud
-        </a>
-      </p>
 
       {/* Unsichtbarer eingebauter SoundCloud-Player */}
       <iframe

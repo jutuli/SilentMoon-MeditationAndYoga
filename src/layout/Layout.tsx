@@ -3,18 +3,19 @@ import Footer from "../components/Footer";
 
 export default function Layout() {
   const location = useLocation();
-  const hideFooter =
-    location.pathname === "/" ||
-    location.pathname === "/signin" ||
-    location.pathname === "/signup" ||
-    location.pathname === "/welcome";
+  const showFooter =
+    location.pathname === "/home" ||
+    location.pathname === "/meditate" ||
+    location.pathname === "/yoga" ||
+    location.pathname === "/music" ||
+    location.pathname === "/profile";
 
   return (
     <div className="flex min-h-screen flex-col">
       <main className="flex grow flex-col">
         <Outlet />
       </main>
-      {!hideFooter && <Footer />}
+      {showFooter && <Footer />}
     </div>
   );
 }
