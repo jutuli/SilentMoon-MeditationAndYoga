@@ -65,17 +65,17 @@ const Meditate = () => {
       <SearchField />
 
       <div className="grid grid-cols-2 gap-3">
-      {filteredSessions?.map((entry, index) => {
-    // .sort(() => Math.random() - 0.5)
+      {filteredSessions?.sort(() => Math.random() - 0.5).map((entry, index) => {
+    
   
-    const isFirstOrFourth = ((index) % 4 === 0 || (index) % 4 === 3);
+
     
     return (
       entry.media_type === "soundcloud" && (
-        <div key={entry.id} className={isFirstOrFourth ? "col-span-2" : ""}>
+        <div key={entry.id}>
           <SingleCart
             session={entry}
-            style={isFirstOrFourth ? "w-full h-80" : "w-full h-50"}
+            style={"h-50 w-full"}
           />
         </div>
       )

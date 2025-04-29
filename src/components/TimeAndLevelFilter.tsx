@@ -59,12 +59,12 @@ const handleTimeClick = (time: string) => {
         
 <>
       <article className="flex justify-between gap-5 pb-5 carousel">
-        <article className="flex gap-5 carousel-item">
+        <article className="flex gap-1 carousel-item">
           {["10 Min", "20 Min", "30 Min"].map((time) => (
             <div
               key={time}
               onClick={() => handleTimeClick(time)}
-              className={`rounded-xl px-4 py-2 cursor-pointer ${
+              className={`rounded-xl px-2 py-2 cursor-pointer text-xs flex items-center ${
                 activeTime === time ? "bg-cream text-dark-green" : "bg-gray text-white"
               }`}
             >
@@ -72,12 +72,12 @@ const handleTimeClick = (time: string) => {
             </div>
           ))}
         </article>
-        <article className="flex gap-5 carousel-item">
+        <article className="flex gap-1 carousel-item">
           {[advancedSession, beginnerSession].map((session) => (
             <div
               key={session?.id}
               onClick={() => handleLevelClick(session?.level)}
-              className={`rounded-xl px-4 py-2 cursor-pointer ${
+              className={`rounded-xl px-2 py-2 text-xs cursor-pointer ${
                 activeLevel === session?.level ? "bg-pink text-cream" : "bg-gray text-white"
               }`}
             >
