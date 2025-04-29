@@ -19,6 +19,7 @@ import MeditateDetail from "./pages/MeditateDetail";
 import YogaDetail from "./pages/YogaDetail";
 import InitialFiltering from "./pages/InitialFiltering";
 import AudioPlayer from "./pages/AudioPlayer";
+import VideoPlayer from "./pages/VideoPlayer";
 
 function App() {
   const router = createBrowserRouter(
@@ -40,6 +41,7 @@ function App() {
           element={<AudioPlayer />}
         />
         <Route path="yoga/:yogaParams" element={<YogaDetail />} />
+        <Route path="yoga/:yogaParams/video" element={<VideoPlayer />} />
         <Route path="initialfilter" element={<InitialFiltering />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Route>,
