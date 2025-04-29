@@ -4,8 +4,10 @@ import RoundButton from "../components/RoundButton";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useRef } from "react";
 import supabase from "../utils/supabase";
+import { useMainContext } from "../context/MainProvider";
 
 const SignIn = () => {
+  const { setUser } = useMainContext();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -18,10 +20,21 @@ const SignIn = () => {
     const password = passwordRef.current?.value || "";
 
     try {
-      await supabase.auth.signInWithPassword({
+      const response = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
+      console.log(response);
+      const user = response.data.user;
+      const identity = user?.identities?.[0];
+      if (user && identity) {
+        setUser({
+          ...user,
+          first_name: identity.identity_data?.first_name ?? "",
+          last_name: identity.identity_data?.last_name ?? "",
+        });
+      }
+
       navigate("/welcome");
     } catch (error) {
       console.warn(error);

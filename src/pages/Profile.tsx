@@ -12,9 +12,10 @@ const Profile = () => {
 
   const favouriteMeditations: ISliderCardProps[] = [];
   console.log(user);
+  
 
   return (
-    <div>
+    <div className="mx-1">
       <Headline />
       <Logout />
       <div className="flex gap-5">
@@ -24,7 +25,9 @@ const Profile = () => {
       <SearchField />
 
       <div>
-        <h1>Favourite Yoga Sessions</h1>
+        <h1 className="text-dark-green pb-5 text-lg font-bold tracking-wider">
+          Favourite Yoga Sessions
+        </h1>
         <Carousel
           placeholder="Add things here by liking a session"
           items={favouriteSessions.map((item) => (
@@ -33,7 +36,7 @@ const Profile = () => {
               img={item.image_url}
               desc={item.description}
               title={item.title}
-              level={""}
+              level={item.level}
               duration={item.duration}
             />
           ))}

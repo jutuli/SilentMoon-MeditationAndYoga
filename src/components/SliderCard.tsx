@@ -3,7 +3,7 @@ export interface ISliderCardProps {
   desc: string;
   title: string;
   level: string;
-  duration: number;
+  duration: number | string;
 }
 
 const SliderCard = ({
