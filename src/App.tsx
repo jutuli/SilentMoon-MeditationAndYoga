@@ -18,6 +18,7 @@ import Reminder from "./pages/Reminder";
 import MeditateDetail from "./pages/MeditateDetail";
 import YogaDetail from "./pages/YogaDetail";
 import InitialFiltering from "./pages/InitialFiltering";
+import AudioPlayer from "./pages/AudioPlayer";
 
 function App() {
   const router = createBrowserRouter(
@@ -34,6 +35,10 @@ function App() {
         <Route path="profile" element={<Profile />} />
         <Route path="reminder" element={<Reminder />} />
         <Route path="meditate/:meditateParams" element={<MeditateDetail />} />
+        <Route
+          path="meditate/:meditateParams/audio"
+          element={<AudioPlayer />}
+        />
         <Route path="yoga/:yogaParams" element={<YogaDetail />} />
         <Route path="initialfilter" element={<InitialFiltering />} />
         <Route path="*" element={<div>404 Not Found</div>} />
