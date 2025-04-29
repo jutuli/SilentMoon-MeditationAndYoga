@@ -1,8 +1,8 @@
 import SilentMoon from "./SilentMoon";
 
 interface Props {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
 }
 
 const Headline: React.FC<Props> = ({ name, description }) => {

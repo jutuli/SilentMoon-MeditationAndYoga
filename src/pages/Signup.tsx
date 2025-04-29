@@ -7,7 +7,7 @@ import { useMainContext } from "../context/MainProvider";
 import supabase from "../utils/supabase";
 
 const SignUp = () => {
-  const { user, setUser, setIsLoggedIn } = useMainContext();
+  const { setUser, setIsLoggedIn } = useMainContext();
 
   const userNameRef = useRef<HTMLInputElement>(null);
   const userSurNameRef = useRef<HTMLInputElement>(null);
@@ -29,16 +29,6 @@ const SignUp = () => {
     console.log(userEmail);
     console.log(userPw);
 
-    if (user) {
-      setUser({
-        ...user,
-        email: userEmail,
-        first_name: userName,
-        last_name: userSurName,
-        password: userPw,
-      });
-    }
-
     try {
       const { data, error } = await supabase.auth.signUp({
         email: userEmail,
@@ -52,20 +42,25 @@ const SignUp = () => {
         },
       });
       console.log("Userdata:", data);
+      const userId = data.user?.id;
 
-      if (error) {
+      if (error || !userId) {
         console.warn("SignUp hat nicht geklappt", error);
       } else {
         console.log(data);
+        setUser({
+          ...data.user,
+          id: userId,
+          email: userEmail,
+          first_name: userName,
+          last_name: userSurName,
+        });
         setIsLoggedIn(true);
         navigate("/welcome");
       }
     } catch (error) {
       console.warn(error);
     }
-
-    //hier erstmal Null
-    console.log(user);
   };
 
   return (

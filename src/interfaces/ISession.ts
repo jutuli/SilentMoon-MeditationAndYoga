@@ -1,4 +1,8 @@
 
+import { ICategory } from "./ICategory";
+
+
+
 
 export interface ISession {
     id: string;
@@ -12,3 +16,4 @@ export interface ISession {
     media_type: string;
     level?: string
   }
+

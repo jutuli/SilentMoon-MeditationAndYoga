@@ -1,26 +1,32 @@
-interface ISliderCardProps {
-    img: string,
-    desc: string,
-    title: string,
-    level: string,
-    duration: string
+export interface ISliderCardProps {
+  img: string;
+  desc: string;
+  title: string;
+  level: string;
+  duration: number | string;
 }
 
-const SliderCard = ({img, desc, title, level, duration}: ISliderCardProps) => {
-
-
-
-    return ( 
+const SliderCard = ({
+  img,
+  desc,
+  title,
+  level,
+  duration,
+}: ISliderCardProps) => {
+  return (
     <>
-    <article className="flex flex-col w-40">
-        <img className="w-full rounded-xl" src={img} alt={desc} />
-        <h4 className="font-bold pt-3 text-dark-green tracking-wider">{title}</h4>
-        <div className="flex flex-row text-gray justify-between w-full uppercase text-sm">
-            <p>{level}</p>
-            <p>{duration} Min</p>
+      <article className="p-2">
+        <img className="w-40 rounded-xl" src={img} alt={desc} />
+        <h4 className="text-dark-green pt-3 font-bold tracking-wider">
+          {title}
+        </h4>
+        <div className="text-gray flex w-full flex-row justify-between text-sm uppercase">
+          <p>{level}</p>
+          <p>{duration} Min</p>
         </div>
-    </article>
-    </> );
-}
- 
+      </article>
+    </>
+  );
+};
+
 export default SliderCard;
