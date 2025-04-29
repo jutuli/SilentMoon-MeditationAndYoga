@@ -18,7 +18,9 @@ interface IMainContext {
   favourites: IFav[];
   updateFavourites: () => void;
   allSessions: ISession[];
-  favouriteSessions:ISession[] ;
+  favouriteSessions: ISession[];
+  yogaSessions: ISession[];
+  meditationSessions: ISession[];
 }
 
 export const mainContext = createContext<IMainContext | undefined>(undefined);
@@ -48,8 +50,7 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     updateAllSessions();
   }, []);
 
-  //TODO: fetch all sessions
-  // const allSessions = [];
+ 
   const updateAllSessions = async () => {
     const fetchSessions = await getAllSessions();
     setAllSessions(fetchSessions);
@@ -59,7 +60,18 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     favourites.some((favourite) => favourite.session_id === session.id),
   );
 
-  console.log(favouriteSessions);
+  // console.log(favouriteSessions);
+
+  const meditationSessions = allSessions.filter(
+    (session) => session.media_type === "soundcloud",
+  );
+
+  // console.log(meditationSessions);
+
+  const yogaSessions = allSessions.filter(
+    (session) => session.media_type === "youtube",
+  );
+  // console.log(yogaSessions);
 
   const value = {
     user,
@@ -70,6 +82,8 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     updateFavourites,
     allSessions,
     favouriteSessions,
+    meditationSessions,
+    yogaSessions,
   };
 
   return <mainContext.Provider value={value}>{children}</mainContext.Provider>;
