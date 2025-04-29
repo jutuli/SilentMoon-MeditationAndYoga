@@ -40,6 +40,7 @@ function App() {
           path="meditate/:meditateParams/audio"
           element={<AudioPlayer />}
         />
+        <Route path="/music/:musicId/player" element={<AudioPlayer />} />
         <Route path="yoga/:yogaParams" element={<YogaDetail />} />
         <Route path="yoga/:yogaParams/video" element={<VideoPlayer />} />
         <Route path="initialfilter" element={<InitialFiltering />} />

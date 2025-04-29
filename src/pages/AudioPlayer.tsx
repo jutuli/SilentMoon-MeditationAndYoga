@@ -14,7 +14,10 @@ import DetailNav from "../components/DetailNav";
 
 const AudioPlayer = () => {
   const navigate = useNavigate();
-  const { meditateParams: sessionId } = useParams();
+  const { meditateParams: sessionId, musicId } = useParams();
+
+  const isMeditation = !!sessionId ;
+const itemId = sessionId || musicId;
 
   // Ref für den SoundCloud-Player (unsichtbar im Hintergrund)
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -30,32 +33,36 @@ const AudioPlayer = () => {
   const [title, setTitle] = useState<string>("");
 
   // Fetch Session-Daten von Supabase
-  useEffect(() => {
-    const fetchSession = async () => {
+  const fetchTrack = async () => {
+    if (isMeditation) {
       const { data, error } = await supabase
         .from("sessions")
         .select("media_url, title")
-        .eq("id", sessionId)
+        .eq("id", itemId)
         .single();
-
-      if (error) {
-        console.error("Fehler beim Laden der Session:", error);
-        return;
-      }
-
+      
       if (data) {
         setTrackUrl(data.media_url);
         setTitle(data.title);
-        console.log(data.media_url);
       }
-    };
-
-    fetchSession();
-  }, [sessionId]);
+    } else {
+      const { data, error } = await supabase
+        .from("music")
+        .select("media_url, title")
+        .eq("id", itemId)
+        .single();
+  
+      if (data) {
+        setTrackUrl(data.media_url);
+        setTitle(data.title);
+      }
+    }
+  };
 
   // Script-Element für SoundCloud Player API erzeugen und laden
   useEffect(() => {
-    if (!trackUrl) return; // Warten, bis die Track-URL geladen ist
+    if (!itemId) return; // Warten, bis die Track-URL geladen ist
+    fetchTrack()
     const script = document.createElement("script");
     script.src = "https://w.soundcloud.com/player/api.js";
     script.async = true;
@@ -111,7 +118,7 @@ const AudioPlayer = () => {
         document.body.removeChild(script);
       }
     };
-  }, [trackUrl]);
+  }, [itemId]);
 
   // Toggle von Play & Pause
   const togglePlayPause = () => {
@@ -164,7 +171,7 @@ const AudioPlayer = () => {
         {/* Back Button */}
         <DetailNav
           buttonLeft={faX}
-          onBackClick={() => navigate(`/meditate/${sessionId}`)}
+          onBackClick={() => navigate(-1)}
           onFavoriteClick={() => {
             handleFavoriteClick;
           }}
@@ -180,7 +187,7 @@ const AudioPlayer = () => {
               </button>
               <button
                 onClick={togglePlayPause}
-                className="bg-dark-green text-cream flex h-16 w-16 items-center justify-center rounded-full"
+                className="bg-dark-green text-cream flex h-16 w-16 items-center justify-center rounded-full cursor-pointer"
               >
                 <FontAwesomeIcon
                   icon={isPlaying ? faPause : faPlay}

@@ -5,8 +5,8 @@ import DetailText from "../components/DetailText";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ISession } from "./Yoga";
 import supabase from "../utils/supabase";
+import { ISession } from "../interfaces/ISession";
 
 const MeditateDetail = () => {
   const navigate = useNavigate();
