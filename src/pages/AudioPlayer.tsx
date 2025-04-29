@@ -4,11 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
   faPause,
-  faTimes,
+  faX,
   faForward,
   faBackward,
 } from "@fortawesome/free-solid-svg-icons";
-import RoundButton from "../components/RoundButton";
 import supabase from "../utils/supabase";
 import { useParams } from "react-router-dom";
 import DetailNav from "../components/DetailNav";
@@ -164,7 +163,7 @@ const AudioPlayer = () => {
       <div className="z-2">
         {/* Back Button */}
         <DetailNav
-          buttonLeft={faTimes}
+          buttonLeft={faX}
           onBackClick={() => navigate(`/meditate/${sessionId}`)}
           onFavoriteClick={() => {
             handleFavoriteClick;
