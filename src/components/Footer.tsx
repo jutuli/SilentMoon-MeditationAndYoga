@@ -6,24 +6,25 @@ import {
   faPerson,
   faSeedling,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const navIcons = [
   { name: "yoga", label: "Yoga", icon: faMoon, path: "/yoga" },
   { name: "meditate", label: "Meditate", icon: faSeedling, path: "/meditate" },
-  { name: "home", label: "Home", icon: faHouse, path: "/" },
+  { name: "home", label: "Home", icon: faHouse, path: "/home" },
   { name: "music", label: "Music", icon: faMusic, path: "/music" },
   { name: "profile", label: "Profile", icon: faPerson, path: "/profile" },
 ];
 
 const Footer = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [activeIcon, setActiveIcon] = useState<string | null>("home");
+  const currentPath = location.pathname;
+  const activeIcon = navIcons.find((icon) => icon.path === currentPath)?.name;
+
 
   const handleClick = (icon: (typeof navIcons)[number]) => {
-    setActiveIcon(icon.name);
     navigate(icon.path);
   };
 
