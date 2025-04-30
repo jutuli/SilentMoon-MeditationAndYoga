@@ -7,7 +7,7 @@ import supabase from "../utils/supabase";
 import { useMainContext } from "../context/MainProvider";
 
 const SignIn = () => {
-  const { setUser } = useMainContext();
+  const { setUser, setAuthOrigin } = useMainContext();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -37,7 +37,9 @@ const SignIn = () => {
           });
         }
 
-        navigate("/welcome");
+        //um unterschiedliche Pfade nach welcome zu gehen
+        setAuthOrigin("signin")
+        navigate("/welcome")
       }
       //TODO: Eventuell eine Fehlermeldung anzeigen, bei fehlgeschlagenem Login
     } catch (error) {

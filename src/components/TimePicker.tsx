@@ -1,6 +1,9 @@
-import { useState } from "react";
+interface TimePickerProps {
+  value: string;
+  onChange: (time: string) => void;
+}
 
-const TimePicker = () => {
+const TimePicker = ({ value, onChange }: TimePickerProps) => {
   // Create hours and minutes arrays
   const hours: string[] = [];
   for (let i = 0; i < 24; i++) {
@@ -12,16 +15,17 @@ const TimePicker = () => {
     minutes.push(i.toString().padStart(2, "0"));
   }
 
-  const [selectedHour, setSelectedHour] = useState("11");
-  const [selectedMinute, setSelectedMinute] = useState("30");
+  let [selectedHour, selectedMinute] = value.split(":");
+  if (!selectedHour) selectedHour = "00";
+  if (!selectedMinute) selectedMinute = "00";
 
   return (
     <div className="time-picker my-4 flex w-full items-center justify-center">
-      <div className="w-full rounded-lg bg-gray-100 p-8 shadow-md">
+      <div className="bg-light-green text-cream w-full rounded-full p-4 shadow-md">
         <div className="flex justify-center gap-4">
           <select
             value={selectedHour}
-            onChange={(e) => setSelectedHour(e.target.value)}
+            onChange={(e) => onChange(`${e.target.value}:${selectedMinute}`)}
             className="text-2xl"
           >
             {hours.map((hour) => (
@@ -33,7 +37,7 @@ const TimePicker = () => {
 
           <select
             value={selectedMinute}
-            onChange={(e) => setSelectedMinute(e.target.value)}
+            onChange={(e) => onChange(`${selectedHour}:${e.target.value}`)}
             className="text-2xl"
           >
             {minutes.map((minute) => (

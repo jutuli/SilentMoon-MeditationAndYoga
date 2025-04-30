@@ -4,6 +4,7 @@ import { faRotateLeft, faX } from "@fortawesome/free-solid-svg-icons";
 import supabase from "../utils/supabase";
 import DetailNav from "../components/DetailNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BackgroundCircles from "../components/BackgroundCircles";
 
 const VideoPlayer = () => {
   const navigate = useNavigate();
@@ -40,11 +41,7 @@ const VideoPlayer = () => {
 
   return (
     <div className="bg-cream relative z-0 flex min-h-screen flex-col items-center justify-center overflow-hidden">
-      {/* Hintergrund-Kreise */}
-      <div className="bg-light-cream absolute top-[-100px] left-[-100px] z-1 h-[300px] w-[300px] rounded-full opacity-50"></div>
-      <div className="bg-light-cream absolute top-[20%] right-[-80px] z-1 h-[250px] w-[250px] rounded-full opacity-20"></div>
-      <div className="bg-light-cream absolute bottom-[-150px] left-[30%] z-1 h-[400px] w-[400px] rounded-full opacity-30"></div>
-
+      <BackgroundCircles />
       {!showRotateMessage ? (
         <div className="z-2 flex h-screen w-full flex-col items-center justify-center p-6">
           <DetailNav

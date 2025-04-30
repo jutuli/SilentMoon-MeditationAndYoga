@@ -24,6 +24,7 @@ import { useMainContext } from "./context/MainProvider";
 import supabase from "./utils/supabase";
 import { useEffect } from "react";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
@@ -57,24 +58,76 @@ useEffect(()=> {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Login />} />
-        <Route path="yoga" element={<Yoga />} />
+        <Route path="yoga" element={
+          <ProtectedRoute>
+          <Yoga />
+          </ProtectedRoute>
+          } />
         <Route path="signin" element={<SignIn />} />
         <Route path="signup" element={<SignUp />} />
-        <Route path="welcome" element={<Welcome />} />
-        <Route path="home" element={<Home />} />
-        <Route path="meditate" element={<Meditate />} />
-        <Route path="music" element={<Music />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="reminder" element={<Reminder />} />
-        <Route path="meditate/:meditateParams" element={<MeditateDetail />} />
+        <Route path="welcome" element={
+          <ProtectedRoute>
+            <Welcome />
+          </ProtectedRoute>
+          } />
+        <Route path="home" element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+          } />
+        <Route path="meditate" element={
+          <ProtectedRoute>
+            <Meditate />
+          </ProtectedRoute>
+          } />
+        <Route path="music" element={
+          <ProtectedRoute>
+            <Music />
+          </ProtectedRoute>
+          } />
+        <Route path="profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+          } />
+        <Route path="reminder" element={
+          <ProtectedRoute>
+            <Reminder />
+          </ProtectedRoute>
+          } />
+        <Route path="meditate/:meditateParams" element={
+          <ProtectedRoute>
+            <MeditateDetail />
+          </ProtectedRoute>
+          } />
         <Route
           path="meditate/:meditateParams/audio"
-          element={<AudioPlayer />}
+          element={
+            <ProtectedRoute>
+              <AudioPlayer />
+            </ProtectedRoute>
+        }
         />
-        <Route path="/music/:musicId/player" element={<AudioPlayer />} />
-        <Route path="yoga/:yogaParams" element={<YogaDetail />} />
-        <Route path="yoga/:yogaParams/video" element={<VideoPlayer />} />
-        <Route path="initialfilter" element={<InitialFiltering />} />
+        <Route path="/music/:musicId/player" element={
+          <ProtectedRoute>
+            <AudioPlayer />
+          </ProtectedRoute>
+          } />
+        <Route path="yoga/:yogaParams" element={
+          <ProtectedRoute>
+            <YogaDetail />
+          </ProtectedRoute>
+          } />
+        <Route path="yoga/:yogaParams/video" element={
+          <ProtectedRoute>
+            <VideoPlayer />
+          </ProtectedRoute>
+          } />
+        <Route path="initialfilter" element={
+          <ProtectedRoute>
+            <InitialFiltering />
+          </ProtectedRoute>
+          } />
         <Route path="*" element={<NotFound />} />
       </Route>,
     ),
