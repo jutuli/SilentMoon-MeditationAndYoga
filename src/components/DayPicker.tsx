@@ -1,17 +1,18 @@
-import { useState } from "react";
+interface DayPickerProps {
+  value: string[];
+  onChange: (days: string[]) => void;
+}
 
-const DayPicker = () => {
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
-
+const DayPicker = ({ value, onChange }: DayPickerProps) => {
   const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
     const day = e.currentTarget.id;
-    setSelectedDays((prev) => {
-      if (prev.includes(day)) {
-        return prev.filter((d) => d !== day);
-      } else {
-        return [...prev, day];
-      }
-    });
+    let newDays: string[];
+    if (value.includes(day)) {
+      newDays = value.filter((d) => d !== day);
+    } else {
+      newDays = [...value, day];
+    }
+    onChange(newDays);
   };
 
   return (
@@ -21,7 +22,7 @@ const DayPicker = () => {
           onClick={handleClick}
           id="monday"
           className={`border-cream flex aspect-square h-10 cursor-pointer items-center justify-center rounded-full border-1 font-bold ${
-            selectedDays.includes("monday")
+            value.includes("monday")
               ? "bg-dark-green text-cream"
               : "text-dark-green"
           }`}
@@ -32,7 +33,7 @@ const DayPicker = () => {
           onClick={handleClick}
           id="tuesday"
           className={`border-cream flex aspect-square h-10 cursor-pointer items-center justify-center rounded-full border-1 font-bold ${
-            selectedDays.includes("tuesday")
+            value.includes("tuesday")
               ? "bg-dark-green text-cream"
               : "text-dark-green"
           }`}
@@ -43,7 +44,7 @@ const DayPicker = () => {
           onClick={handleClick}
           id="wednesday"
           className={`border-cream flex aspect-square h-10 cursor-pointer items-center justify-center rounded-full border-1 font-bold ${
-            selectedDays.includes("wednesday")
+            value.includes("wednesday")
               ? "bg-dark-green text-cream"
               : "text-dark-green"
           }`}
@@ -54,7 +55,7 @@ const DayPicker = () => {
           onClick={handleClick}
           id="thursday"
           className={`border-cream flex aspect-square h-10 cursor-pointer items-center justify-center rounded-full border-1 font-bold ${
-            selectedDays.includes("thursday")
+            value.includes("thursday")
               ? "bg-dark-green text-cream"
               : "text-dark-green"
           }`}
@@ -65,7 +66,7 @@ const DayPicker = () => {
           onClick={handleClick}
           id="friday"
           className={`border-cream flex aspect-square h-10 cursor-pointer items-center justify-center rounded-full border-1 font-bold ${
-            selectedDays.includes("friday")
+            value.includes("friday")
               ? "bg-dark-green text-cream"
               : "text-dark-green"
           }`}
@@ -76,7 +77,7 @@ const DayPicker = () => {
           onClick={handleClick}
           id="saturday"
           className={`border-cream flex aspect-square h-10 cursor-pointer items-center justify-center rounded-full border-1 font-bold ${
-            selectedDays.includes("saturday")
+            value.includes("saturday")
               ? "bg-dark-green text-cream"
               : "text-dark-green"
           }`}
@@ -87,7 +88,7 @@ const DayPicker = () => {
           onClick={handleClick}
           id="sunday"
           className={`border-cream flex aspect-square h-10 cursor-pointer items-center justify-center rounded-full border-1 font-bold ${
-            selectedDays.includes("sunday")
+            value.includes("sunday")
               ? "bg-dark-green text-cream"
               : "text-dark-green"
           }`}
