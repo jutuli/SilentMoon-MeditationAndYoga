@@ -1,23 +1,34 @@
+import { ISession } from "../interfaces/ISession";
 import SliderCard from "./SliderCard";
 
 interface ISliderProps {
-    headline: string
+  headline: string;
+  sessions: ISession[];
 }
 
-const Slider = ({headline}: ISliderProps) => {
-    return ( 
-        <>
-        <article>
-            <h2 className="font-bold text-dark-green text-lg tracking-wider pb-5">Recommended Yoga for you</h2>
-            <article className="carousel rounded-box w-full">
-                {/* div mappen */}
-            <div className="carousel-item">
-            <SliderCard img="/img/evening2.jpg" desc="" title="title" duration="dauer" level="level"/>
+const Slider = ({ headline, sessions }: ISliderProps) => {
+  return (
+    <>
+      <article>
+        <h2 className="text-dark-green pb-5 text-lg font-bold tracking-wider">
+          {headline}
+        </h2>
+        <article className="carousel carousel-center rounded-box">
+          {sessions.slice(1).map((session) => (
+            <div className="carousel-item" key={session.id}>
+              <SliderCard
+                img={session.image_url}
+                desc={session.description}
+                title={session.title}
+                duration={session.duration.toString()}
+                level="level"
+              />
             </div>
-            </article>
+          ))}
         </article>
-        </>
-     );
-}
- 
+      </article>
+    </>
+  );
+};
+
 export default Slider;

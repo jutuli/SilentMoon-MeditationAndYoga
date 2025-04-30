@@ -1,31 +1,33 @@
-import { Link } from "react-router-dom";
-
 interface IHomeCardProps {
-    img: string,
-    title: string,
-    level: string,
-    duration: string,
-    textColor: string,
-    bgColorButton: string,
-    textColorButton: string
+  img: string;
+  title: string;
+  level: string;
+  duration: string;
+  onClick: () => void;
 }
 
-const HomeCard = ({title, img, level, duration, textColor, bgColorButton, textColorButton}: IHomeCardProps) => {
-    return ( 
-        <article className="h-[200px] overflow-hidden relative rounded-xl">
-            <img className="w-full h-full object-cover object-center" src={img} alt="desc" />
-           <article className={`absolute z-10 top-15 left-5 w-full`}>
-           <div className={`${textColor} w-20 tracking-wider`}>
-           <h4 className="font-bold">{title}</h4>
-           <p className="uppercase text-xs">{level}</p>
-           </div>
-           <div className="flex flex-row justify-between text-xs pt-12 pr-10 uppercase items-center">
-            <p className="text-cream">{duration} Min</p>
-            <Link to="" className={`${bgColorButton} ${textColorButton} py-2 px-3 rounded-2xl`}>Start</Link>
-           </div>
-           </article>
-        </article>
-     );
-}
- 
+const HomeCard = ({ title, img, level, duration, onClick }: IHomeCardProps) => {
+  return (
+    <article
+      className="relative h-[160px] w-100 overflow-hidden rounded-xl"
+      onClick={onClick}
+    >
+      <img
+        className="h-full w-full object-cover object-center"
+        src={img}
+        alt="desc"
+      />
+      <article
+        className={`absolute top-4 left-5 z-10 flex w-full flex-col justify-between`}
+      >
+        <div className={`text-cream w-20 tracking-wider`}>
+          <h4 className="font-bold">{title}</h4>
+          <p className="text-xs uppercase">{level}</p>
+        </div>
+        <p className="text-cream pt-5 pr-4 text-xs uppercase">{duration} Min</p>
+      </article>
+    </article>
+  );
+};
+
 export default HomeCard;

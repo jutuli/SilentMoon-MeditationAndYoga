@@ -70,7 +70,10 @@ const InitialFiltering = () => {
         </div>
       </div>
       <div className="mb-10 flex flex-col gap-5">
-        <Button text="Continue" onClick={() => navigate("/home")} />
+        <Button
+          text="Continue"
+          onClick={() => navigate("/home", { state: { selectedFilters } })}
+        />
         <button
           onClick={() => {
             setSelectedFilters([]);

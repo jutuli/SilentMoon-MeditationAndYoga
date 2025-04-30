@@ -1,9 +1,9 @@
-export interface ISliderCardProps {
+interface ISliderCardProps {
   img: string;
   desc: string;
   title: string;
   level: string;
-  duration: number | string;
+  duration: string | number;
 }
 
 const SliderCard = ({
@@ -15,12 +15,16 @@ const SliderCard = ({
 }: ISliderCardProps) => {
   return (
     <>
-      <article className="p-2">
-        <img className="w-40 rounded-xl" src={img} alt={desc} />
-        <h4 className="text-dark-green pt-3 font-bold tracking-wider">
+      <article className="flex w-40 flex-col">
+        <img
+          className="h-30 w-full rounded-xl object-cover object-center"
+          src={img}
+          alt={desc}
+        />
+        <h4 className="text-dark-green pt-2 leading-5 font-bold tracking-wider">
           {title}
         </h4>
-        <div className="text-gray flex w-full flex-row justify-between text-sm uppercase">
+        <div className="text-gray flex w-full flex-row justify-between pt-2 text-sm uppercase">
           <p>{level}</p>
           <p>{duration} Min</p>
         </div>
