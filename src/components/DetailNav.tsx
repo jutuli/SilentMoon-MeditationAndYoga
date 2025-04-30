@@ -19,7 +19,7 @@ const DetailNav = ({
 }: IDetailNavProps) => {
   return (
     <>
-      <article className="absolute top-0 flex w-full justify-between p-5">
+      <article className="absolute top-0 z-20 flex w-full justify-between p-5">
         <RoundButton
           content={buttonLeft}
           style="bg-cream text-dark-green"
