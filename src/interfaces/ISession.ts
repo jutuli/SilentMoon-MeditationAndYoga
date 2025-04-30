@@ -13,4 +13,5 @@ export interface ISession {
       name: string;
     };
   };
+  level: string;
 }
