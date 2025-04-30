@@ -5,6 +5,7 @@ import SearchField from "../components/SearchField";
 import supabase from "../utils/supabase";
 import { SingleCart } from "../components/SingleCard";
 import TimeAndLevelFilter from "../components/TimeAndLevelFilter";
+import { useMainContext } from "../context/MainProvider";
 
 export interface ISessionYM {
   id: string;
@@ -28,6 +29,8 @@ const Yoga = () => {
     null,
   );
   const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const { favouriteSessions } = useMainContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,9 +56,23 @@ const Yoga = () => {
     setActiveLevelFilter(filter ?? null);
   };
 
-  const filteredSessions = sessions?.filter((session) => {
+
+  let sessionsToDisplay: ISessionYM[] = [];
+
+  //damit ich an die verschachtelte category id komme ohne die Typen zu ändern im MainProvider, weil sonst andere Konflikte (same in Yoga)
+  const flatFavourites = favouriteSessions.map((session) => ({
+    ...session,
+    category_id: typeof session.category_id === "object" ? session.category_id.id : session.category_id,
+  }));
+  if (activeFilter === "favourites") {
+    sessionsToDisplay = flatFavourites;
+  } else {
+    sessionsToDisplay = sessions ?? [];
+  }
+
+  const filteredSessions = sessionsToDisplay?.filter((session) => {
     const passesCategory =
-      activeFilter === "all" || session.category_id === activeFilter;
+      activeFilter === "all" || activeFilter === "favourites" || session.category_id === activeFilter;
     const passesLevel =
       !activeLevelFilter || session.level === activeLevelFilter;
 

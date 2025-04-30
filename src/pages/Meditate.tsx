@@ -6,6 +6,7 @@ import { SingleCart } from "../components/SingleCard";
 import Headline from "../components/Headline";
 import TimeAndLevelFilter from "../components/TimeAndLevelFilter";
 import { ISessionYM } from "./Yoga";
+import { useMainContext } from "../context/MainProvider";
 
 
 const Meditate = () => {
@@ -16,6 +17,10 @@ const Meditate = () => {
   const [activeLevel, setActiveLevel] = useState<string | null>(null);
   const [activeTime, setActiveTime] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
+
+
+  const { favouriteSessions } = useMainContext();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,9 +46,24 @@ const Meditate = () => {
     setActiveTime(time);
   };
 
-  const filteredSessions = sessions?.filter((session) => {
+
+  let sessionsToDisplay: ISessionYM[] = [];
+
+  const flatFavourites = favouriteSessions.map((session) => ({
+    ...session,
+    category_id: typeof session.category_id === "object" ? session.category_id.id : session.category_id,
+  }));
+
+  if (activeFilter === "favourites") {
+    sessionsToDisplay = flatFavourites;
+  } else {
+    sessionsToDisplay = sessions ?? [];
+  }
+  
+
+  const filteredSessions = sessionsToDisplay?.filter((session) => {
     const passesCategory =
-      activeFilter === "all" || session.category_id === activeFilter;
+      activeFilter === "all" || activeFilter === "favourites" || session.category_id === activeFilter;
     const passesLevel = !activeLevel || session.level === activeLevel;
     const passesTime =
       !activeTime ||

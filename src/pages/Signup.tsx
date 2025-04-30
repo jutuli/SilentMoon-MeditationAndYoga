@@ -7,7 +7,7 @@ import { useMainContext } from "../context/MainProvider";
 import supabase from "../utils/supabase";
 
 const SignUp = () => {
-  const { setUser, setIsLoggedIn } = useMainContext();
+  const { setUser, setIsLoggedIn, setAuthOrigin} = useMainContext();
 
   const userNameRef = useRef<HTMLInputElement>(null);
   const userSurNameRef = useRef<HTMLInputElement>(null);
@@ -56,6 +56,8 @@ const SignUp = () => {
           last_name: userSurName,
         });
         setIsLoggedIn(true);
+        //für untersch. Pfade
+        setAuthOrigin("signup")
         navigate("/welcome");
       }
     } catch (error) {

@@ -1,11 +1,27 @@
+
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import DayPicker from "../components/DayPicker";
 import TimePicker from "../components/TimePicker";
+import SilentMoon from "../components/SilentMoon";
+
+
 
 const Reminder = () => {
+
+  const navigate = useNavigate()
+
+  const handleSaveReminder = () => {
+    navigate("/initialfilter")
+  }
+
+
+
   return (
     <section className="reminders flex flex-col gap-5 px-5">
-      <p>Silent Moon Komp</p>
+      <div className="pb-10">
+      <SilentMoon/>
+      </div>
       <article>
         <h2 className="text-dark-green text-lg font-bold tracking-wider">
           What time would you like to meditate?
@@ -24,8 +40,10 @@ const Reminder = () => {
         </p>
       </article>
       <DayPicker />
-      <Button text="Save" />
-      <button className="text-pink uppercase">No Thanks</button>
+      <Button text="Save" onClick={handleSaveReminder}/>
+      <Link to={"/initialfilter"} className="text-center cursor-pointer">
+      <button className="text-pink uppercase cursor-pointer">No Thanks</button>
+      </Link>
     </section>
   );
 };
