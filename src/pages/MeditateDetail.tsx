@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import supabase from "../utils/supabase";
 import { ISession } from "../interfaces/ISession";
+import NotFound from "./NotFound";
 
 const MeditateDetail = () => {
   const navigate = useNavigate();
@@ -15,9 +16,11 @@ const MeditateDetail = () => {
 
   //habs wie in Yoga.tsx genannt
   const [session, setSession] = useState<ISession | null>();
-  
+  const [isLoading, setIsLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
   const fetchYogaDetail = async () => {
+    setIsLoading(true);
     const { data, error } = await supabase
       .from("sessions")
       .select("*")
@@ -25,14 +28,33 @@ const MeditateDetail = () => {
     //setSession(data)
     if (error) {
       console.log(error);
-    } else {
+      setNotFound(true);
+    } else if (data && data.length > 0) {
       setSession(data[0]);
+      setIsLoading(false);
+    } else {
+      setNotFound(true);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     fetchYogaDetail();
-  }, []);
+  }, [meditateParams]);
+
+  if (isLoading) {
+    return (
+      <div className="text-dark-green flex flex-1 items-center justify-center text-center font-bold">
+        Lädt... <br />
+        🧘‍♂️{" "}
+      </div>
+    );
+  }
+
+  // NotFound anzeigen, wenn keine Session gefunden wurde
+  if (notFound || !session) {
+    return <NotFound />;
+  }
 
   const handlePlayClick = () => {
     navigate(`/meditate/${meditateParams}/audio`);
@@ -41,8 +63,6 @@ const MeditateDetail = () => {
   const handleBackClick = () => {
     navigate(`/meditate`);
   };
-
-  if (!session) return null;
 
   return (
     <section>
