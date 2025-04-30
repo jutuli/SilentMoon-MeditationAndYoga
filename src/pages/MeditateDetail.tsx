@@ -15,7 +15,7 @@ const MeditateDetail = () => {
 
   //habs wie in Yoga.tsx genannt
   const [session, setSession] = useState<ISession | null>();
-  const [favorite, setFavorite] = useState(false);
+  
 
   const fetchYogaDetail = async () => {
     const { data, error } = await supabase
@@ -42,9 +42,7 @@ const MeditateDetail = () => {
     navigate(`/meditate`);
   };
 
-  const handleFavoriteClick = () => {
-    setFavorite(!favorite);
-  };
+  if (!session) return null;
 
   return (
     <section>
@@ -57,22 +55,22 @@ const MeditateDetail = () => {
         <DetailNav
           buttonLeft={faArrowLeft}
           onBackClick={handleBackClick}
-          onFavoriteClick={handleFavoriteClick}
+          session_id={session.id}
         />
       </article>
       <article className="flex flex-col">
         <DetailText
-          title={session?.title}
+          title={session.title}
           type="Meditation"
-          desc={session?.description}
+          desc={session.description}
         />
         <article className="px-5">
           <h2 className="text-dark-green pb-5 font-bold tracking-wider">
             Play meditation
           </h2>
           <PlayButton
-            title={session?.title}
-            duration={session?.duration}
+            title={session.title}
+            duration={session.duration}
             onClick={handlePlayClick}
           />
         </article>

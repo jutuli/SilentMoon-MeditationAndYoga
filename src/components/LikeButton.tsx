@@ -5,37 +5,36 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   session_id: string;
-  user_id?: string;
 }
 
-export const LikeButton: React.FunctionComponent<Props> = ({
-  session_id,
-  
-}) => {
-  const { favourites, updateFavourites } = useMainContext();
+export const LikeButton: React.FunctionComponent<Props> = ({ session_id }) => {
+  const { favourites, updateFavourites, user } = useMainContext();
 
   const isLiked: boolean = favourites.some(
     (favourite) => favourite.session_id === session_id,
   );
-  console.log("LikeButton:", favourites);
+  //console.log("LikeButton:", favourites);
 
-  const handleLike = () => {
+  const handleLike = async () => {
+    if (!user) {
+      return;
+    }
     if (isLiked) {
-      unlikeSession(session_id);
-      updateFavourites();
+      unlikeSession(session_id).then(() => {
+        updateFavourites();
+      });
     } else {
-      likeSession(session_id);
-      updateFavourites();
+      likeSession(session_id, user.id).finally(() => {
+        updateFavourites();
+      });
     }
   };
 
   return (
-    <>
-      <RoundButton
-        style={isLiked ? "text-red-500" : "text-gray-200"}
-        content={faHeart}
-        onClick={handleLike}
-      />
-    </>
+    <RoundButton
+      style={isLiked ? "bg-cream text-pink" : "bg-pink text-cream"}
+      content={faHeart}
+      onClick={handleLike}
+    />
   );
 };

@@ -23,13 +23,13 @@ export const unlikeSession = async (session_id: string) => {
     .from("favourites")
     .delete()
     .eq("session_id", session_id);
-  console.log(result);
+  console.log("unlike session: ", { session_id, result });
 };
 
-export const likeSession = async (session_id: string) => {
+export const likeSession = async (session_id: string, user_id: string) => {
   const result = await supabase.from("favourites").insert({
     session_id: session_id,
-    user_id: "3a9e40e8-4de6-4115-b4df-34ecc42c5741",
+    user_id: user_id,
   });
   console.log(result);
 };

@@ -1,21 +1,18 @@
-import {
-  faDownload,
-  faHeart,
-  IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import RoundButton from "./RoundButton";
-import { useState } from "react";
+
+import { LikeButton } from "./LikeButton";
 
 interface IDetailNavProps {
   buttonLeft: IconDefinition;
   onBackClick: () => void;
-  onFavoriteClick: () => void;
+  session_id: string;
 }
 
 const DetailNav = ({
   buttonLeft,
   onBackClick,
-  onFavoriteClick,
+  session_id,
 }: IDetailNavProps) => {
   return (
     <>
@@ -25,11 +22,7 @@ const DetailNav = ({
           style="bg-cream text-dark-green"
           onClick={onBackClick}
         />
-        <RoundButton
-          content={faHeart}
-          style="bg-pink text-cream"
-          onClick={onFavoriteClick}
-        />
+        <LikeButton session_id={session_id} />
       </article>
     </>
   );
