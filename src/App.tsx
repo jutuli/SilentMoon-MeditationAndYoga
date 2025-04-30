@@ -23,36 +23,31 @@ import VideoPlayer from "./pages/VideoPlayer";
 import { useMainContext } from "./context/MainProvider";
 import supabase from "./utils/supabase";
 import { useEffect } from "react";
+import NotFound from "./pages/NotFound";
 
 function App() {
+  const { setIsLoggedIn, isLoggedIn, user, setUser } = useMainContext();
 
-const {setIsLoggedIn, isLoggedIn, user, setUser} = useMainContext()
+  const checkLoginStatus = async () => {
+    const { data: user } = await supabase.auth.getUser();
 
-const checkLoginStatus = async () => {
-  const {data: user} = await supabase
-  .auth
-  .getUser()
+    const { data: yogaUser, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", user.user?.id);
 
-  const {data: yogaUser, error} = await supabase
-  .from("users")
-  .select("*")
-  .eq("id", user.user?.id)
+    if (error) {
+      console.log("Der Userfetch hat in der App.tsx nicht geklappt", error);
+    } else {
+      setUser(yogaUser?.[0] || null);
+      setIsLoggedIn(true);
+      console.log(user);
+    }
+  };
 
-  if (error) {
-    console.log("Der Userfetch hat in der App.tsx nicht geklappt", error);
-  } else {
-    setUser(yogaUser?.[0] || null)
-    setIsLoggedIn(true)
-    console.log(user);
-  }
-}
-
-useEffect(()=> {
-  checkLoginStatus()
-}, [setUser, isLoggedIn])
-
-
-
+  useEffect(() => {
+    checkLoginStatus();
+  }, [setUser, isLoggedIn]);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -76,7 +71,7 @@ useEffect(()=> {
         <Route path="yoga/:yogaParams" element={<YogaDetail />} />
         <Route path="yoga/:yogaParams/video" element={<VideoPlayer />} />
         <Route path="initialfilter" element={<InitialFiltering />} />
-        <Route path="*" element={<div>404 Not Found</div>} />
+        <Route path="*" element={<NotFound />} />
       </Route>,
     ),
   );
