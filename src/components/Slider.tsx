@@ -4,9 +4,10 @@ import SliderCard from "./SliderCard";
 interface ISliderProps {
   headline: string;
   sessions: ISession[];
+  type: string
 }
 
-const Slider = ({ headline, sessions }: ISliderProps) => {
+const Slider = ({ headline, sessions, type}: ISliderProps) => {
   return (
     <>
       <article>
@@ -22,6 +23,8 @@ const Slider = ({ headline, sessions }: ISliderProps) => {
                 title={session.title}
                 duration={session.duration.toString()}
                 level={session.level}
+                id={session.id}
+                type={type}
               />
             </div>
           ))}

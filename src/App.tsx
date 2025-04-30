@@ -26,28 +26,32 @@ import { useEffect } from "react";
 import NotFound from "./pages/NotFound";
 
 function App() {
-  const { setIsLoggedIn, isLoggedIn, user, setUser } = useMainContext();
 
-  const checkLoginStatus = async () => {
-    const { data: user } = await supabase.auth.getUser();
+const {setIsLoggedIn, user, isLoggedIn, setUser} = useMainContext()
 
-    const { data: yogaUser, error } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", user.user?.id);
+const checkLoginStatus = async () => {
+  const {data: user} = await supabase
+  .auth
+  .getUser()
 
-    if (error) {
-      console.log("Der Userfetch hat in der App.tsx nicht geklappt", error);
-    } else {
-      setUser(yogaUser?.[0] || null);
-      setIsLoggedIn(true);
-      console.log(user);
-    }
-  };
+  const {data: yogaUser, error} = await supabase
+  .from("users")
+  .select("*")
+  .eq("id", user.user?.id)
 
-  useEffect(() => {
-    checkLoginStatus();
-  }, [setUser, isLoggedIn]);
+  if (error) {
+    console.log("Der Userfetch hat in der App.tsx nicht geklappt", error);
+  } else {
+    setUser(yogaUser?.[0] || null)
+    setIsLoggedIn(true)
+    console.log(user);
+  }
+}
+
+useEffect(()=> {
+  checkLoginStatus()
+}, [setUser, isLoggedIn])
+
 
   const router = createBrowserRouter(
     createRoutesFromElements(

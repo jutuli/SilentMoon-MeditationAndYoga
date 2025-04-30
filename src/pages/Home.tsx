@@ -20,6 +20,7 @@ const Home = () => {
   const [recommendedMeditation, setRecommendedMeditation] = useState<
     ISession[]
   >([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const {user} = useMainContext()
 
@@ -49,6 +50,21 @@ const Home = () => {
 
     return uniqueSessions;
   };
+
+// für die Suchfunktion
+  const filteredRecommendedYoga = recommendedYoga.filter(
+    (session) =>
+      session.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      session.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  const filteredRecommendedMeditation = recommendedMeditation.filter(
+    (session) =>
+      session.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      session.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+
 
   useEffect(() => {
     const fetchRecommendations = async () => {
@@ -162,17 +178,19 @@ const Home = () => {
           />
         )}
       </article>
-      <SearchField />
-      {recommendedYoga.length > 1 && (
+      <SearchField doSearch={setSearchTerm}/>
+      {filteredRecommendedYoga.length > 1 && (
         <Slider
           headline="Recommended Yoga for you"
-          sessions={recommendedYoga}
+          sessions={filteredRecommendedYoga}
+          type="yoga"
         />
       )}
-      {recommendedMeditation.length > 1 && (
+      {filteredRecommendedMeditation.length > 1 && (
         <Slider
           headline="Recommended Meditation for you"
-          sessions={recommendedMeditation}
+          sessions={filteredRecommendedMeditation}
+          type="meditate"
         />
       )}
     </section>
