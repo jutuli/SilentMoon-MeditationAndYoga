@@ -6,15 +6,19 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import supabase from "../utils/supabase";
 import { useEffect, useState } from "react";
 import { ISession } from "../interfaces/ISession";
+import NotFound from "./NotFound";
 
 const YogaDetail = () => {
   const { yogaParams } = useParams();
   const navigate = useNavigate();
+  const [notFound, setNotFound] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   //habs wie in Yoga.tsx genannt
   const [session, setSession] = useState<ISession | null>();
 
   const fetchYogaDetail = async () => {
+    setIsLoading(true);
     const { data, error } = await supabase
       .from("sessions")
       .select("*")
@@ -22,19 +26,33 @@ const YogaDetail = () => {
     //setSession(data)
     if (error) {
       console.log(error);
-    } else {
+      setNotFound(true);
+    } else if (data && data.length > 0) {
       setSession(data[0]);
+      setIsLoading(false);
+    } else {
+      setNotFound(true);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     fetchYogaDetail();
-  }, []);
+  }, [yogaParams]);
 
-  if (!session) {
-    return null;
+  if (isLoading) {
+    return (
+      <div className="text-dark-green flex flex-1 items-center justify-center text-center font-bold">
+        Lädt... <br />
+        🧘‍♂️{" "}
+      </div>
+    );
   }
-  //console.log("session: ", session);
+
+  // NotFound anzeigen, wenn keine Session gefunden wurde
+  if (notFound || !session) {
+    return <NotFound />;
+  }
 
   return (
     <>
