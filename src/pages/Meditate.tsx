@@ -1,11 +1,23 @@
 import { useEffect, useState } from "react";
 import CategoryFilter from "../components/CategoryFilter";
-import { ISession } from "../interfaces/ISession";
 import supabase from "../utils/supabase";
 import SearchField from "../components/SearchField";
 import { SingleCart } from "../components/SingleCard";
 import Headline from "../components/Headline";
 import TimeAndLevelFilter from "../components/TimeAndLevelFilter";
+
+interface ISession {
+  id: string;
+  title: string;
+  description: string;
+  duration: number;
+  image_url: string;
+  media_url: string;
+  media_type: string;
+  category_id: string
+  level: string;
+}
+
 
 const Meditate = () => {
   const [sessions, setSessions] = useState<ISession[] | undefined>();
@@ -65,7 +77,7 @@ const Meditate = () => {
       <SearchField />
 
       <div className="grid grid-cols-2 gap-3">
-      {filteredSessions?.sort(() => Math.random() - 0.5).map((entry, index) => {
+      {filteredSessions?.sort(() => Math.random() - 0.5).map((entry) => {
     
   
 

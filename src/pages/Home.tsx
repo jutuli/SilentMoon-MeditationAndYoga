@@ -6,6 +6,7 @@ import Slider from "../components/Slider";
 import { useEffect, useState, useMemo } from "react";
 import supabase from "../utils/supabase";
 import { ISession } from "../interfaces/ISession";
+import { useMainContext } from "../context/MainProvider";
 
 const Home = () => {
   const location = useLocation();
@@ -20,7 +21,9 @@ const Home = () => {
     ISession[]
   >([]);
 
-  const getGreeting = (name: string) => {
+  const {user} = useMainContext()
+
+  const getGreeting = (name: string | undefined) => {
     const currentTime = new Date().getHours();
     if (currentTime >= 5 && currentTime < 12) {
       return `Good Morning, ${name}! ☀️ `;
@@ -131,11 +134,11 @@ const Home = () => {
   }, [selectedFilters]);
 
   return (
-    <section className="flex flex-col gap-5 px-5">
+    <section className="flex flex-col gap-5 px-5 pb-25">
       <SilentMoon />
       <article>
         <h2 className="text-dark-green text-lg font-bold tracking-wider">
-          {getGreeting("User")}
+          {getGreeting(user?.first_name)}
         </h2>
         <p className="text-gray text-xs">We hope you have a good day.</p>
       </article>

@@ -20,8 +20,40 @@ import YogaDetail from "./pages/YogaDetail";
 import InitialFiltering from "./pages/InitialFiltering";
 import AudioPlayer from "./pages/AudioPlayer";
 import VideoPlayer from "./pages/VideoPlayer";
+import { useMainContext } from "./context/MainProvider";
+import supabase from "./utils/supabase";
+import { useEffect } from "react";
 
 function App() {
+
+const {setIsLoggedIn, isLoggedIn, user, setUser} = useMainContext()
+
+const checkLoginStatus = async () => {
+  const {data: user} = await supabase
+  .auth
+  .getUser()
+
+  const {data: yogaUser, error} = await supabase
+  .from("users")
+  .select("*")
+  .eq("id", user.user?.id)
+
+  if (error) {
+    console.log("Der Userfetch hat in der App.tsx nicht geklappt", error);
+  } else {
+    setUser(yogaUser?.[0] || null)
+    setIsLoggedIn(true)
+    console.log(user);
+  }
+}
+
+useEffect(()=> {
+  checkLoginStatus()
+}, [setUser, isLoggedIn])
+
+
+
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
