@@ -1,6 +1,8 @@
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -21,6 +23,8 @@ interface IMainContext {
   favouriteSessions: ISession[];
   yogaSessions: ISession[];
   meditationSessions: ISession[];
+  authOrigin: "signin" | "signup" | null
+  setAuthOrigin: Dispatch<SetStateAction<"signin" | "signup" | null>>;
 }
 
 export const mainContext = createContext<IMainContext | undefined>(undefined);
@@ -39,6 +43,9 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
 
   const [favourites, setFavourites] = useState<IFav[]>([]);
   const [allSessions, setAllSessions] = useState<ISession[]>([]);
+
+  //für untersch Pfade noch login/signup
+  const [authOrigin, setAuthOrigin] = useState<"signin" | "signup" | null>(null);
 
   // fetch favourites if a user is logged in
   const updateFavourites = async () => {
@@ -83,6 +90,8 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     favouriteSessions,
     meditationSessions,
     yogaSessions,
+    authOrigin,
+    setAuthOrigin
   };
 
   return <mainContext.Provider value={value}>{children}</mainContext.Provider>;
