@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { data, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -7,6 +7,8 @@ import {
   faX,
   faForward,
   faBackward,
+  faRotateRight,
+  faRotateLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import supabase from "../utils/supabase";
 import { useParams } from "react-router-dom";
@@ -14,9 +16,10 @@ import DetailNav from "../components/DetailNav";
 
 const AudioPlayer = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { meditateParams: sessionId, musicId } = useParams();
 
-  const isMeditation = !!sessionId;
+  const isMeditation = Boolean(sessionId);
   const itemId = sessionId || musicId;
 
   // Ref für den SoundCloud-Player (unsichtbar im Hintergrund)
@@ -33,44 +36,36 @@ const AudioPlayer = () => {
   const [title, setTitle] = useState<string>("");
 
   // Fetch Session-Daten von Supabase
-  const fetchTrack = async () => {
-    if (isMeditation) {
+  useEffect(() => {
+    if (!itemId) return;
+    const fetchTrack = async () => {
+      const table = isMeditation ? "sessions" : "music";
       const { data, error } = await supabase
-        .from("sessions")
+        .from(table)
         .select("media_url, title")
         .eq("id", itemId)
         .single();
 
-      if (data) {
+      if (error) {
+        console.error("Error fetching data:", error);
+      } else if (data) {
         setTrackUrl(data.media_url);
         setTitle(data.title);
       }
-    } else {
-      const { data, error } = await supabase
-        .from("music")
-        .select("media_url, title")
-        .eq("id", itemId)
-        .single();
-
-      if (data) {
-        setTrackUrl(data.media_url);
-        setTitle(data.title);
-      }
-    }
-  };
-  console.log(itemId);
+    };
+    fetchTrack();
+  }, [itemId, isMeditation]);
 
   // Script-Element für SoundCloud Player API erzeugen und laden
   useEffect(() => {
-    if (!itemId) return; // Warten, bis die Track-URL geladen ist
-    fetchTrack();
+    if (!trackUrl) return; // Warten, bis die Track-URL geladen ist
     const script = document.createElement("script");
     script.src = "https://w.soundcloud.com/player/api.js";
     script.async = true;
     document.body.appendChild(script);
 
     // Interval zum Abfragen der aktuellen Position
-    let interval: any = null;
+    let interval: number | null = null;
 
     // Wenn das Script geladen wurde
     script.onload = () => {
@@ -88,19 +83,12 @@ const AudioPlayer = () => {
             setDuration(sound.duration / 1000);
           });
 
-          // Jetzt erst Intervall starten, um aktuelle Position zu holen
-          interval = setInterval(() => {
-            if (
-              newWidget &&
-              iframeRef.current &&
-              iframeRef.current.contentWindow // contentWindow bezieht sich auf das iframe
-            ) {
-              newWidget.getPosition((pos: number) => {
-                setCurrentTime(pos / 1000); // Position in Sekunden speichern
-              });
-            }
-          }, 1000);
           newWidget.play(); // Player automatisch starten
+          interval = window.setInterval(() => {
+            newWidget.getPosition((pos: number) => {
+              setCurrentTime(pos / 1000);
+            });
+          }, 1000); // Alle 1 Sekunde die aktuelle Position abfragen
         });
 
         // Abspielen/Anhalten Status speichern
@@ -119,7 +107,7 @@ const AudioPlayer = () => {
         document.body.removeChild(script);
       }
     };
-  }, [itemId]);
+  }, [trackUrl]);
 
   // Toggle von Play & Pause
   const togglePlayPause = () => {
@@ -157,6 +145,35 @@ const AudioPlayer = () => {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
+  // Skippen bzw. Next/Prev Track
+  const handleSkip = async (seconds: number) => {
+    if (location.pathname.includes("/meditate")) {
+      skip(seconds);
+    } else if (location.pathname.includes("/music") && musicId) {
+      const { data: songs, error } = await supabase.from("music").select("id");
+      if (error || !songs) return;
+
+      const ids = songs.map((song) => song.id);
+      const idx = ids.indexOf(musicId);
+      if (idx === -1) return;
+
+      // +1 für Next, -1 für Prev
+      const nextIdx = idx + (seconds > 0 ? 1 : -1);
+      if (nextIdx < 0 || nextIdx >= ids.length) return;
+
+      navigate(`/music/${ids[nextIdx]}/player`);
+    }
+  };
+
+  const handleExit = () => {
+    if (location.pathname.includes("/meditate")) {
+      navigate(-1);
+    } else if (location.pathname.includes("/music")) {
+      navigate("/music");
+    } else {
+      navigate("/home");
+    }
+  };
 
   return (
     <div className="bg-cream relative z-0 flex min-h-screen flex-col items-center justify-center overflow-hidden">
@@ -167,7 +184,7 @@ const AudioPlayer = () => {
       {/* Back Button */}
       <DetailNav
         buttonLeft={faX}
-        onBackClick={() => navigate(-1)}
+        onBackClick={handleExit}
         session_id={sessionId}
       />
 
@@ -178,8 +195,14 @@ const AudioPlayer = () => {
           </h1>
           <div className="flex flex-col items-center">
             <div className="flex items-center justify-center gap-8">
-              <button onClick={() => skip(-15)} className="text-dark-green">
-                <FontAwesomeIcon icon={faBackward} size="2x" />
+              <button
+                onClick={() => handleSkip(-15)}
+                className="text-dark-green cursor-pointer"
+              >
+                <FontAwesomeIcon
+                  icon={isMeditation ? faRotateLeft : faBackward}
+                  size="2x"
+                />
               </button>
               <button
                 onClick={togglePlayPause}
@@ -190,8 +213,14 @@ const AudioPlayer = () => {
                   size="2x"
                 />
               </button>
-              <button onClick={() => skip(15)} className="text-dark-green">
-                <FontAwesomeIcon icon={faForward} size="2x" />
+              <button
+                onClick={() => handleSkip(15)}
+                className="text-dark-green cursor-pointer"
+              >
+                <FontAwesomeIcon
+                  icon={isMeditation ? faRotateRight : faForward}
+                  size="2x"
+                />
               </button>
             </div>
             <div className="mt-8 w-full">
