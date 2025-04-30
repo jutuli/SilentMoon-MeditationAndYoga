@@ -50,9 +50,7 @@ const VideoPlayer = () => {
           <DetailNav
             buttonLeft={faX}
             onBackClick={() => navigate(`/yoga/${sessionId}`)}
-            onFavoriteClick={() => {
-              console.log("Video favorited");
-            }}
+            session_id={sessionId}
           />
 
           <div className="relative mt-6 h-full w-full rounded-2xl">

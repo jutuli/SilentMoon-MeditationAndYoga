@@ -6,7 +6,7 @@ import { LikeButton } from "./LikeButton";
 interface IDetailNavProps {
   buttonLeft: IconDefinition;
   onBackClick: () => void;
-  session_id: string;
+  session_id?: string;
 }
 
 const DetailNav = ({
@@ -22,7 +22,7 @@ const DetailNav = ({
           style="bg-cream text-dark-green"
           onClick={onBackClick}
         />
-        <LikeButton session_id={session_id} />
+        {session_id && <LikeButton session_id={session_id} />}
       </article>
     </>
   );

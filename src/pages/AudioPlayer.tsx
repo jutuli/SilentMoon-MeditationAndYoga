@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -58,6 +58,7 @@ const AudioPlayer = () => {
       }
     }
   };
+  console.log(itemId);
 
   // Script-Element für SoundCloud Player API erzeugen und laden
   useEffect(() => {
@@ -156,10 +157,6 @@ const AudioPlayer = () => {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  // Session als Favorit markieren
-  const handleFavoriteClick = () => {
-    console.log("Track favorited");
-  };
 
   return (
     <div className="bg-cream relative z-0 flex min-h-screen flex-col items-center justify-center overflow-hidden">
@@ -171,9 +168,7 @@ const AudioPlayer = () => {
       <DetailNav
         buttonLeft={faX}
         onBackClick={() => navigate(-1)}
-        onFavoriteClick={() => {
-          handleFavoriteClick;
-        }}
+        session_id={sessionId}
       />
 
       <div className="z-20">
