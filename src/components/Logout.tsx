@@ -25,7 +25,7 @@ export const Logout = () => {
 
   return (
     <>
-      {!isLoggedIn && (
+      {isLoggedIn && (
         <RoundButton
           style="fixed top-0 right-0 m-2"
           content={faPowerOff}

@@ -1,57 +1,50 @@
-import { Carousel } from "../components/Carousel";
+import { Link } from "react-router";
 import Headline from "../components/Headline";
 import { Logout } from "../components/Logout";
+import { ProfileButton } from "../components/ProfileButton";
+import { ProfileImage } from "../components/ProfileImage";
 import SearchField from "../components/SearchField";
-
-import SliderCard, { ISliderCardProps } from "../components/SliderCard";
+import Slider from "../components/Slider";
 import { useMainContext } from "../context/MainProvider";
 
 const Profile = () => {
-  //fetch über die Fav.SupaBase Table
   const { favouriteSessions, user } = useMainContext();
 
-  const favouriteMeditations: ISliderCardProps[] = [];
-  console.log(user);
-  
+  const favouriteMeditations = favouriteSessions.filter(
+    (session) => session.media_type === "soundcloud",
+  );
+
+  const favouriteYoga = favouriteSessions.filter(
+    (session) => session.media_type === "youtube",
+  );
+  if (!user) return;
 
   return (
     <div className="mx-1">
       <Headline />
       <Logout />
-      <div className="flex gap-5">
-        <img src={undefined} alt="hier kommt ein profilbild hin" />
-        <h1 className="border-2 border-pink-400">{user?.first_name}</h1>
-      </div>
-      <SearchField />
 
+      {/* <SearchField /> */}
+      <ProfileImage />
       <div>
-        <h1 className="text-dark-green pb-5 text-lg font-bold tracking-wider">
-          Favourite Yoga Sessions
-        </h1>
-        <Carousel
-          placeholder="Add things here by liking a session"
-          items={favouriteSessions.map((item) => (
-            <SliderCard
-              {...item}
-              img={item.image_url}
-              desc={item.description}
-              title={item.title}
-              level={item.level}
-              duration={item.duration}
-            />
-          ))}
+        <Slider
+          headline="Favourite Yoga Sessions"
+          sessions={favouriteYoga}
+          type="Yoga"
         />
       </div>
 
       <div>
-        <h1>Favourite Meditations</h1>
-        <Carousel
-          placeholder="Add things here by liking a session"
-          items={favouriteMeditations.map((item) => (
-            <SliderCard {...item} />
-          ))}
+        <h1></h1>
+        <Slider
+          headline="Favourite Meditations"
+          type="meditate"
+          sessions={favouriteMeditations}
         />
       </div>
+      <Link to="reminder">
+        <ProfileButton name="Reminder" />
+      </Link>
     </div>
   );
 };

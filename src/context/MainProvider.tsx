@@ -11,6 +11,7 @@ import { IUser } from "../interfaces/IUser";
 import { getFavourites, IFav } from "../api/favourites";
 import { ISession } from "../interfaces/ISession";
 import { getAllSessions } from "../api/sessions";
+import { updateUser } from "../api/user";
 
 interface IMainContext {
   user: IUser | null;
@@ -23,8 +24,12 @@ interface IMainContext {
   favouriteSessions: ISession[];
   yogaSessions: ISession[];
   meditationSessions: ISession[];
+
+  updateUserImage: (imageUrl: string) => void;
+
   authOrigin: "signin" | "signup" | null
   setAuthOrigin: Dispatch<SetStateAction<"signin" | "signup" | null>>;
+
 }
 
 export const mainContext = createContext<IMainContext | undefined>(undefined);
@@ -79,6 +84,19 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
   );
   // console.log(yogaSessions);
 
+  const updateUserImage = async (newImageUrl: string) => {
+    if (user) {
+      const updatedUser: IUser = { ...user, image_url: newImageUrl };
+
+      // updated user im backend
+      const response = await updateUser(updatedUser);
+      // updated user im Frontend
+      console.log(" updae user image response", response);
+
+      setUser(updatedUser);
+    }
+  };
+
   const value = {
     user,
     setUser,
@@ -90,8 +108,12 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     favouriteSessions,
     meditationSessions,
     yogaSessions,
+
+    updateUserImage,
+
     authOrigin,
     setAuthOrigin
+
   };
 
   return <mainContext.Provider value={value}>{children}</mainContext.Provider>;
