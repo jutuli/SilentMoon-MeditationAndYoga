@@ -5,7 +5,7 @@ import RoundButton from "../components/RoundButton";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import supabase from "../utils/supabase";
 import { useEffect, useState } from "react";
-import { ISession } from "./Yoga";
+import { ISession } from "../interfaces/ISession";
 
 const YogaDetail = () => {
   const { yogaParams } = useParams();

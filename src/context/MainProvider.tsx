@@ -7,7 +7,7 @@ import {
 } from "react";
 import { IUser } from "../interfaces/IUser";
 import { getFavourites, IFav } from "../api/favourites";
-import { ISession } from "../pages/Yoga";
+import { ISession } from "../interfaces/ISession";
 import { getAllSessions } from "../api/sessions";
 
 interface IMainContext {
@@ -50,7 +50,6 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     updateAllSessions();
   }, []);
 
- 
   const updateAllSessions = async () => {
     const fetchSessions = await getAllSessions();
     setAllSessions(fetchSessions);
