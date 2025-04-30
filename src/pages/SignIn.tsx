@@ -24,18 +24,22 @@ const SignIn = () => {
         email: email,
         password: password,
       });
-      console.log(response);
-      const user = response.data.user;
-      const identity = user?.identities?.[0];
-      if (user && identity) {
-        setUser({
-          ...user,
-          first_name: identity.identity_data?.first_name ?? "",
-          last_name: identity.identity_data?.last_name ?? "",
-        });
-      }
+      console.log("login response: ", response);
 
-      navigate("/welcome");
+      if (!response.error) {
+        const user = response.data.user;
+        const identity = user?.identities?.[0];
+        if (user && identity) {
+          setUser({
+            ...user,
+            first_name: identity.identity_data?.first_name ?? "",
+            last_name: identity.identity_data?.last_name ?? "",
+          });
+        }
+
+        navigate("/welcome");
+      }
+      //TODO: Eventuell eine Fehlermeldung anzeigen, bei fehlgeschlagenem Login
     } catch (error) {
       console.warn(error);
     }

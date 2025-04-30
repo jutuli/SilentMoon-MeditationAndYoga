@@ -31,7 +31,10 @@ const YogaDetail = () => {
     fetchYogaDetail();
   }, []);
 
-  console.log(session);
+  if (!session) {
+    return null;
+  }
+  //console.log("session: ", session);
 
   return (
     <>
@@ -39,13 +42,13 @@ const YogaDetail = () => {
         <article className="relative pb-10">
           <img
             className="h-100 w-full rounded-b-lg object-cover object-center"
-            src={session?.image_url}
-            alt={session?.title}
+            src={session.image_url}
+            alt={session.title}
           />
           <DetailNav
             buttonLeft={faX}
             onBackClick={() => navigate("/yoga")}
-            onFavoriteClick={() => console.log("favorited Session")}
+            session_id={session.id}
           />
           <div className="absolute top-50 left-1/2 -translate-x-1/2 transform">
             <Link to={`/yoga/${session?.id}/video`}>
@@ -58,9 +61,9 @@ const YogaDetail = () => {
         </article>
         <article className="flex flex-col">
           <DetailText
-            title={session?.title}
+            title={session.title}
             type="Yoga"
-            desc={session?.description}
+            desc={session.description}
           />
         </article>
       </section>
