@@ -73,9 +73,9 @@ const handleTimeClick = (time: string) => {
           ))}
         </article>
         <article className="flex gap-1 carousel-item">
-          {[advancedSession, beginnerSession].map((session) => (
+          {[advancedSession, beginnerSession].map((session, index) => (
             <div
-              key={session?.id}
+              key={index}
               onClick={() => handleLevelClick(session?.level)}
               className={`rounded-xl px-2 py-2 text-xs cursor-pointer ${
                 activeLevel === session?.level ? "bg-pink text-cream" : "bg-gray text-white"

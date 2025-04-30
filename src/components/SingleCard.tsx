@@ -1,9 +1,12 @@
 import { Link } from "react-router";
-import { ISession } from "../pages/Yoga";
+import { ISessionYM } from "../pages/Yoga";
+
+
+
 
 
 interface Props {
-  session: ISession | undefined;
+  session: ISessionYM | undefined;
   style: string
 }
 export const SingleCart: React.FC<Props> = ({ session, style }) => {

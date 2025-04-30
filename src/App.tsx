@@ -26,7 +26,7 @@ import { useEffect } from "react";
 
 function App() {
 
-const {setIsLoggedIn, isLoggedIn, user, setUser} = useMainContext()
+const {setIsLoggedIn, isLoggedIn, setUser} = useMainContext()
 
 const checkLoginStatus = async () => {
   const {data: user} = await supabase
