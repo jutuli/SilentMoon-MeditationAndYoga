@@ -13,7 +13,7 @@ const Slider = ({ headline, sessions }: ISliderProps) => {
         <h2 className="text-dark-green pb-5 text-lg font-bold tracking-wider">
           {headline}
         </h2>
-        <article className="carousel carousel-center rounded-box">
+        <article className="carousel flex rounded-box gap-5">
           {sessions.slice(1).map((session) => (
             <div className="carousel-item" key={session.id}>
               <SliderCard
@@ -21,7 +21,7 @@ const Slider = ({ headline, sessions }: ISliderProps) => {
                 desc={session.description}
                 title={session.title}
                 duration={session.duration.toString()}
-                level="level"
+                level={session.level}
               />
             </div>
           ))}

@@ -4,8 +4,20 @@ import Headline from "../components/Headline";
 import SearchField from "../components/SearchField";
 import supabase from "../utils/supabase";
 import { SingleCart } from "../components/SingleCard";
-import { ISession } from "../interfaces/ISession";
 import TimeAndLevelFilter from "../components/TimeAndLevelFilter";
+
+interface ISession {
+  id: string;
+  title: string;
+  description: string;
+  duration: number;
+  image_url: string;
+  media_url: string;
+  media_type: string;
+  category_id: string
+  level: string;
+}
+
 
 
 const Yoga = () => {
@@ -15,12 +27,11 @@ const Yoga = () => {
   const [activeTimeFilter, setActiveTimeFilter] = useState<number | null>(null);
   const [activeLevelFilter, setActiveLevelFilter] = useState<string | null>(null);
   
-
   useEffect(() => {
     const fetchData = async () => {
       const resp = await supabase
         .from("sessions")
-        .select("*, session_tags(*, tags(*))");
+        .select("*, categories(*)");
 
       if (resp.data) {
         setSessions(resp.data as unknown as ISession[]);
