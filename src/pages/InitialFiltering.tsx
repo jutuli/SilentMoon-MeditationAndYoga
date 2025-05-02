@@ -4,7 +4,7 @@ import supabase from "../utils/supabase";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import SilentMoon from "../components/SilentMoon";
-import { useMainContext } from "../context/MainProvider";
+
 
 interface IType {
   id: string;
