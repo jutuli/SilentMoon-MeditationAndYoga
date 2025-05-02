@@ -46,10 +46,22 @@ const Reminder = () => {
       console.error("Error saving reminders:", error);
     } else {
       console.log("Saved reminders:", data);
-      // wenn die vorherige Seite initialfilter war, dann zurück zur Home
-      const targetPath =
-        reminderOrigin === "initialfilter" ? "/home" : "/profile";
-      navigate(targetPath);
+      handleNavigation();
+    }
+  };
+
+  console.log(reminderOrigin);
+
+  const handleNavigation = () => {
+    if (reminderOrigin === "welcome") {
+      navigate("/initialfilter");
+      setReminderOrigin(null);
+    } else if (reminderOrigin === "profile") {
+      navigate("/profile");
+      setReminderOrigin(null);
+    } else {
+      navigate("/home");
+      setReminderOrigin(null);
     }
   };
 
@@ -77,7 +89,7 @@ const Reminder = () => {
       <Button text="Save" onClick={handleSave} />
       <button
         className="text-pink cursor-pointer uppercase"
-        onClick={() => navigate("/home")}
+        onClick={handleNavigation}
       >
         No Thanks
       </button>

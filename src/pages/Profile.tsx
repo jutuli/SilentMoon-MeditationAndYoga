@@ -10,14 +10,11 @@ import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
 const Profile = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const [searchTerm, setSearchTerm] = useState<string>("")
-
-  const { favouriteSessions, user } = useMainContext();
-
-
+  const { favouriteSessions, user, setReminderOrigin } = useMainContext();
 
   const filteredFavourites = favouriteSessions.filter((session) => {
     return (
@@ -36,36 +33,41 @@ const Profile = () => {
   );
   if (!user) return;
 
-
   return (
     <div className="px-5 pb-25">
       <Headline />
       <Logout />
-      <RoundButton content={faCalendarDays} style="bg-cream fixed top-2 left-2 m-2 z-10" onClick={()=>navigate("/reminder")}/>
+      <RoundButton
+        content={faCalendarDays}
+        style="bg-cream fixed top-2 left-2 m-2 z-10"
+        onClick={() => {
+          navigate("/reminder");
+          setReminderOrigin("profile");
+        }}
+      />
 
-      
       <div className="pb-10">
-      <ProfileImage />
+        <ProfileImage />
       </div>
-   <article className="flex flex-col justify-around gap-5">
-      <SearchField doSearch={setSearchTerm}/>
-   <div>
-        <Slider
-          headline="Favourite Yoga Sessions"
-          sessions={favouriteYoga}
-          type="Yoga"
-        />
-      </div>
+      <article className="flex flex-col justify-around gap-5">
+        <SearchField doSearch={setSearchTerm} />
+        <div>
+          <Slider
+            headline="Favourite Yoga Sessions"
+            sessions={favouriteYoga}
+            type="Yoga"
+          />
+        </div>
 
-      <div>
-        <h1></h1>
-        <Slider
-          headline="Favourite Meditations"
-          type="meditate"
-          sessions={favouriteMeditations}
-        />
-      </div>
-   </article>
+        <div>
+          <h1></h1>
+          <Slider
+            headline="Favourite Meditations"
+            type="meditate"
+            sessions={favouriteMeditations}
+          />
+        </div>
+      </article>
     </div>
   );
 };
