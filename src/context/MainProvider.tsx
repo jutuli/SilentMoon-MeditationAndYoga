@@ -31,15 +31,19 @@ interface IMainContext {
   reminderOrigin: "profile" | "welcome" | null;
   setReminderOrigin: Dispatch<SetStateAction<"profile" | "welcome" | null>>;
   sessionsYM: ISessionYM[] | null;
-  setSessionsYM: (sessions: ISessionYM[] | null) => void
-  activeFilter: string | "all" | "favourites" | null
-  setActiveFilter: (activeFilter: string | "all" | "favourites" | null) => void
-  activeTimeFilter: number | null
-  setActiveTimeFilter: (activeTimeFilter: number | null) => void
-  activeLevelFilter: string | null
-  setActiveLevelFilter: (activeLevelFilter: string | null) => void
-  searchTerm: string | ""
-  setSearchTerm: (searchTerm: string | "") => void
+  setSessionsYM: (sessions: ISessionYM[] | null) => void;
+  activeFilter: string | "all" | "favourites" | null;
+  setActiveFilter: (activeFilter: string | "all" | "favourites" | null) => void;
+  activeTimeFilter: number | null;
+  setActiveTimeFilter: (activeTimeFilter: number | null) => void;
+  activeLevelFilter: string | null;
+  setActiveLevelFilter: (activeLevelFilter: string | null) => void;
+  searchTerm: string | "";
+  setSearchTerm: (searchTerm: string | "") => void;
+  selectedTime: string;
+  setSelectedTime: Dispatch<SetStateAction<string>>;
+  selectedDays: string[];
+  setSelectedDays: Dispatch<SetStateAction<string[]>>;
 }
 
 export const mainContext = createContext<IMainContext | undefined>(undefined);
@@ -60,16 +64,16 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
   const [allSessions, setAllSessions] = useState<ISession[]>([]);
 
   //states for Yoga and Meditate.tsx
-  const [sessionsYM, setSessionsYM] = useState<ISessionYM[] | null>([])
+  const [sessionsYM, setSessionsYM] = useState<ISessionYM[] | null>([]);
   const [activeFilter, setActiveFilter] = useState<
-  string | "all" | "favourites" | null
->("all");
-const [activeTimeFilter, setActiveTimeFilter] = useState<number | null>(null);
-const [activeLevelFilter, setActiveLevelFilter] = useState<string | null>(
-  null,
-);
+    string | "all" | "favourites" | null
+  >("all");
+  const [activeTimeFilter, setActiveTimeFilter] = useState<number | null>(null);
+  const [activeLevelFilter, setActiveLevelFilter] = useState<string | null>(
+    null,
+  );
 
-const [searchTerm, setSearchTerm] = useState<string | "">("");
+  const [searchTerm, setSearchTerm] = useState<string | "">("");
 
   //für untersch Pfade noch login/signup bzw. reminder
   const [authOrigin, setAuthOrigin] = useState<"signin" | "signup" | null>(
@@ -78,6 +82,9 @@ const [searchTerm, setSearchTerm] = useState<string | "">("");
   const [reminderOrigin, setReminderOrigin] = useState<
     "profile" | "welcome" | null
   >(null);
+
+  const [selectedTime, setSelectedTime] = useState<string>("");
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
   // fetch favourites if a user is logged in
   const updateFavourites = async () => {
@@ -149,7 +156,11 @@ const [searchTerm, setSearchTerm] = useState<string | "">("");
     activeLevelFilter,
     setActiveLevelFilter,
     searchTerm,
-    setSearchTerm
+    setSearchTerm,
+    selectedTime,
+    setSelectedTime,
+    selectedDays,
+    setSelectedDays,
   };
 
   return <mainContext.Provider value={value}>{children}</mainContext.Provider>;
