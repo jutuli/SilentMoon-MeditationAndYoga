@@ -152,13 +152,13 @@ const Home = () => {
   return (
     <section className="flex flex-col gap-5 px-5 pb-25">
       <SilentMoon />
-      <article>
+      <article className="pt-5">
         <h2 className="text-dark-green text-lg font-bold tracking-wider">
           {getGreeting(user?.first_name)}
         </h2>
         <p className="text-gray text-xs">We hope you have a good day.</p>
       </article>
-      <article className="flex justify-around gap-5">
+      <article className="flex justify-around gap-5 pb-5">
         {recommendedYoga[0] && (
           <HomeCard
             title={recommendedYoga[0].title}

@@ -68,7 +68,7 @@ const MeditateDetail = () => {
     <section>
       <article className="relative pb-10">
         <img
-          className="h-70 w-full rounded-b-lg object-cover object-center"
+          className="h-80 w-full rounded-b-lg object-cover object-center"
           src={session?.image_url}
           alt="description"
         />

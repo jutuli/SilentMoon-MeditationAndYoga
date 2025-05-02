@@ -80,7 +80,7 @@ const Meditate = () => {
   });
 
   return (
-    <div className="px-5 pb-25">
+    <div className="px-5 pb-25 w-screen">
       <Headline
         name="Meditate"
         description="Audio-only meditation techniques to help you minimize your screen time and practice on the go."
@@ -96,18 +96,18 @@ const Meditate = () => {
 
       <SearchField doSearch={setSearchTerm} />
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className={filteredSessions && filteredSessions.length > 0 ? "grid grid-cols-2 gap-3" : ""}>
         {filteredSessions && filteredSessions.length > 0 ? (
           filteredSessions?.sort(() => Math.random() - 0.5)
           .map((entry) => {
             return (
               entry.media_type === "soundcloud" && (
                 <div key={entry.id}>
-                  <SingleCart session={entry} style={"h-50 w-full"} />
+                  <SingleCart session={entry} style="h-50 w-full" />
                 </div>
               )
             );
-          })) : (<div className="flex justify-center items-center"><p className="text-dark-green font-bold text-center">Your search doesn't match with any session</p></div>)}
+          })) : (<p className="text-dark-green font-bold text-center pt-10">No Yoga or Meditation sessions match your search. Try adjusting your search</p>)}
       </div>
     </div>
   );
