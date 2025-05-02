@@ -40,17 +40,17 @@ const VideoPlayer = () => {
   }, []);
 
   return (
-    <div className="bg-cream relative z-0 flex min-h-screen flex-col items-center justify-center overflow-hidden">
+    <div className="bg-cream relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
       <BackgroundCircles />
       {!showRotateMessage ? (
-        <div className="z-2 flex h-screen w-full flex-col items-center justify-center p-6">
+        <div className="flex h-screen w-full flex-col items-center justify-center p-6">
           <DetailNav
             buttonLeft={faX}
             onBackClick={() => navigate(`/yoga/${sessionId}`)}
             session_id={sessionId}
           />
 
-          <div className="relative mt-6 h-full w-full rounded-2xl">
+          <div className="relative z-100 mt-6 h-full w-full rounded-2xl">
             {videoUrl && (
               <iframe
                 className="absolute top-1/2 left-1/2 h-[75vw] w-[75vh] origin-center -translate-x-1/2 -translate-y-1/2 rotate-90 rounded-xl"
