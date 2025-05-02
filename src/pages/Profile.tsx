@@ -42,7 +42,7 @@ const Profile = () => {
           sessions={favouriteMeditations}
         />
       </div>
-      <Link to="reminder">
+      <Link to="/reminder">
         <ProfileButton name="Reminder" />
       </Link>
     </div>
