@@ -5,8 +5,11 @@ import SilentMoon from "../components/SilentMoon";
 import TimePicker from "../components/TimePicker";
 import supabase from "../utils/supabase";
 import { useNavigate } from "react-router-dom";
+import { useMainContext } from "../context/MainProvider";
 
 const Reminder = () => {
+  const { reminderOrigin, setReminderOrigin } = useMainContext();
+
   const navigate = useNavigate();
 
   const [selectedTime, setSelectedTime] = useState<string>("");
@@ -43,6 +46,10 @@ const Reminder = () => {
       console.error("Error saving reminders:", error);
     } else {
       console.log("Saved reminders:", data);
+      // wenn die vorherige Seite initialfilter war, dann zurück zur Home
+      const targetPath =
+        reminderOrigin === "initialfilter" ? "/home" : "/profile";
+      navigate(targetPath);
     }
   };
 
