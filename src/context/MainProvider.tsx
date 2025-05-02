@@ -24,12 +24,13 @@ interface IMainContext {
   favouriteSessions: ISession[];
   yogaSessions: ISession[];
   meditationSessions: ISession[];
-
   updateUserImage: (imageUrl: string) => void;
-
-  authOrigin: "signin" | "signup" | null
+  authOrigin: "signin" | "signup" | null;
   setAuthOrigin: Dispatch<SetStateAction<"signin" | "signup" | null>>;
-
+  reminderOrigin: "profile" | "initialfilter" | null;
+  setReminderOrigin: Dispatch<
+    SetStateAction<"profile" | "initialfilter" | null>
+  >;
 }
 
 export const mainContext = createContext<IMainContext | undefined>(undefined);
@@ -49,8 +50,13 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
   const [favourites, setFavourites] = useState<IFav[]>([]);
   const [allSessions, setAllSessions] = useState<ISession[]>([]);
 
-  //für untersch Pfade noch login/signup
-  const [authOrigin, setAuthOrigin] = useState<"signin" | "signup" | null>(null);
+  //für untersch Pfade noch login/signup bzw. reminder
+  const [authOrigin, setAuthOrigin] = useState<"signin" | "signup" | null>(
+    null,
+  );
+  const [reminderOrigin, setReminderOrigin] = useState<
+    "profile" | "initialfilter" | null
+  >(null);
 
   // fetch favourites if a user is logged in
   const updateFavourites = async () => {
@@ -108,12 +114,11 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     favouriteSessions,
     meditationSessions,
     yogaSessions,
-
     updateUserImage,
-
     authOrigin,
-    setAuthOrigin
-
+    setAuthOrigin,
+    reminderOrigin,
+    setReminderOrigin,
   };
 
   return <mainContext.Provider value={value}>{children}</mainContext.Provider>;
