@@ -10,16 +10,12 @@ import { useMainContext } from "../context/MainProvider";
 
 
 const Meditate = () => {
-  const [sessions, setSessions] = useState<ISessionYM[] | undefined>();
-  const [activeFilter, setActiveFilter] = useState<
-    string | "all" | "favourites" | null
-  >("all");
-  const [activeLevel, setActiveLevel] = useState<string | null>(null);
-  const [activeTime, setActiveTime] = useState<number | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  // const [activeLevel, setActiveLevel] = useState<string | null>(null);
+  //const [activeTime, setActiveTime] = useState<number | null>(null);
+  // const [searchTerm, setSearchTerm] = useState<string>("");
 
 
-  const { favouriteSessions } = useMainContext();
+  const { favouriteSessions, sessionsYM, setSessionsYM, activeFilter, setActiveFilter, activeTimeFilter, setActiveTimeFilter, activeLevelFilter, setActiveLevelFilter, searchTerm, setSearchTerm} = useMainContext();
 
 
   useEffect(() => {
@@ -27,7 +23,7 @@ const Meditate = () => {
       const resp = await supabase.from("sessions").select("*");
 
       if (resp.data) {
-        setSessions(resp.data as unknown as ISessionYM[]);
+        setSessionsYM(resp.data as unknown as ISessionYM[]);
       }
       console.log(resp.data);
     };
@@ -39,11 +35,11 @@ const Meditate = () => {
   };
 
   const handleLevelChange = (level: string | undefined | null) => {
-    setActiveLevel(level ?? null);
+    setActiveLevelFilter(level ?? null);
   };
 
   const handleTimeChange = (time: number | null) => {
-    setActiveTime(time);
+    setActiveTimeFilter(time);
   };
 
 
@@ -57,19 +53,19 @@ const Meditate = () => {
   if (activeFilter === "favourites") {
     sessionsToDisplay = flatFavourites;
   } else {
-    sessionsToDisplay = sessions ?? [];
+    sessionsToDisplay = sessionsYM ?? [];
   }
   
 
   const filteredSessions = sessionsToDisplay?.filter((session) => {
     const passesCategory =
       activeFilter === "all" || activeFilter === "favourites" || session.category_id === activeFilter;
-    const passesLevel = !activeLevel || session.level === activeLevel;
+    const passesLevel = !activeLevelFilter || session.level === activeLevelFilter;
     const passesTime =
-      !activeTime ||
-      (activeTime === 1 && session.duration < 15) ||
-      (activeTime === 2 && session.duration >= 15 && session.duration < 27) ||
-      (activeTime === 3 && session.duration >= 27);
+      !activeTimeFilter ||
+      (activeTimeFilter === 1 && session.duration < 15) ||
+      (activeTimeFilter === 2 && session.duration >= 15 && session.duration < 27) ||
+      (activeTimeFilter === 3 && session.duration >= 27);
 
     const passesSearch =
       !searchTerm ||

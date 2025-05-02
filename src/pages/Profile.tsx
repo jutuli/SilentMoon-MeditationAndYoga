@@ -7,14 +7,13 @@ import Slider from "../components/Slider";
 import { useMainContext } from "../context/MainProvider";
 import RoundButton from "../components/RoundButton";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 
 const Profile = () => {
   const navigate = useNavigate();
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  //const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const { favouriteSessions, user, setReminderOrigin } = useMainContext();
+  const { favouriteSessions, user, setReminderOrigin, searchTerm, setSearchTerm } = useMainContext();
 
   const filteredFavourites = favouriteSessions.filter((session) => {
     return (
