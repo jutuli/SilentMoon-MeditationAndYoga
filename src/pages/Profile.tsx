@@ -49,24 +49,32 @@ const Profile = () => {
       <div className="pb-10">
         <ProfileImage />
       </div>
+      
       <article className="flex flex-col justify-around gap-5">
         <SearchField doSearch={setSearchTerm} />
-        <div>
-          <Slider
-            headline="Favourite Yoga Sessions"
-            sessions={favouriteYoga}
-            type="Yoga"
-          />
-        </div>
+        {favouriteYoga.length === 0 && favouriteMeditations.length === 0 ? (
+  <p className="text-dark-green font-bold text-center py-10">
+    No matching Yoga or Meditation sessions found. Try adjusting your search.
+  </p>
+): (<article>
+  <div>
+     <Slider
+       headline="Favourite Yoga Sessions"
+       sessions={favouriteYoga}
+       type="Yoga"
+     />
+   </div>
 
-        <div>
-          <h1></h1>
-          <Slider
-            headline="Favourite Meditations"
-            type="meditate"
-            sessions={favouriteMeditations}
-          />
-        </div>
+   <div>
+     <h1></h1>
+     <Slider
+       headline="Favourite Meditations"
+       type="meditate"
+       sessions={favouriteMeditations}
+     />
+   </div>
+  </article>)}
+       
       </article>
     </div>
   );

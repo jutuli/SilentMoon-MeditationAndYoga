@@ -179,6 +179,12 @@ const Home = () => {
         )}
       </article>
       <SearchField doSearch={setSearchTerm}/>
+      {filteredRecommendedYoga.length === 0 && filteredRecommendedMeditation.length === 0 && (
+  <p className="text-dark-green font-bold text-center pt-10">
+    No Yoga or Meditation sessions match your search. Try adjusting your search.
+  </p>
+)}
+      {filteredRecommendedMeditation.length > 0 && filteredRecommendedYoga.length > 0}
       {filteredRecommendedYoga.length > 1 && (
         <Slider
           headline="Recommended Yoga for you"

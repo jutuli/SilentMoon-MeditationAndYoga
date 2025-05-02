@@ -29,6 +29,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
 
 const {setIsLoggedIn, user, isLoggedIn, setUser} = useMainContext()
+console.log(user);
 
 const checkLoginStatus = async () => {
   const {data: user} = await supabase
