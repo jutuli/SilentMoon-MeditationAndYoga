@@ -27,10 +27,8 @@ interface IMainContext {
   updateUserImage: (imageUrl: string) => void;
   authOrigin: "signin" | "signup" | null;
   setAuthOrigin: Dispatch<SetStateAction<"signin" | "signup" | null>>;
-  reminderOrigin: "profile" | "initialfilter" | null;
-  setReminderOrigin: Dispatch<
-    SetStateAction<"profile" | "initialfilter" | null>
-  >;
+  reminderOrigin: "profile" | "welcome" | null;
+  setReminderOrigin: Dispatch<SetStateAction<"profile" | "welcome" | null>>;
 }
 
 export const mainContext = createContext<IMainContext | undefined>(undefined);
@@ -55,7 +53,7 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     null,
   );
   const [reminderOrigin, setReminderOrigin] = useState<
-    "profile" | "initialfilter" | null
+    "profile" | "welcome" | null
   >(null);
 
   // fetch favourites if a user is logged in

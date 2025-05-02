@@ -4,6 +4,7 @@ import supabase from "../utils/supabase";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import SilentMoon from "../components/SilentMoon";
+import { useMainContext } from "../context/MainProvider";
 
 interface IType {
   id: string;
@@ -33,9 +34,9 @@ const InitialFiltering = () => {
   return (
     <section className="initial-filtering flex grow flex-col justify-between px-5">
       <div className="flex flex-col gap-5">
-       <div className="pb-10">
-        <SilentMoon/>
-       </div>
+        <div className="pb-10">
+          <SilentMoon />
+        </div>
         <article>
           <h2 className="text-dark-green text-lg font-bold tracking-wider">
             Would you like to choose a few topics to focus on today?
@@ -75,14 +76,16 @@ const InitialFiltering = () => {
       <div className="mb-10 flex flex-col gap-5">
         <Button
           text="Continue"
-          onClick={() => navigate("/home", { state: { selectedFilters } })}
+          onClick={() => {
+            navigate("/home", { state: { selectedFilters } });
+          }}
         />
         <button
           onClick={() => {
             setSelectedFilters([]);
             navigate("/home");
           }}
-          className="text-pink uppercase cursor-pointer"
+          className="text-pink cursor-pointer uppercase"
         >
           No Thanks
         </button>
