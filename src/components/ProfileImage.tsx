@@ -48,7 +48,7 @@ export const ProfileImage = () => {
   if (!user) return;
   return (
     <>
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-10">
         <div className="rounded-full">
           <img
             src={
@@ -63,7 +63,7 @@ export const ProfileImage = () => {
         <h1 className="text-2xl font-bold text-dark-green">Hi {user.first_name}!</h1>
       </div>
       {isEditing ? (
-        <div>
+        <div className="flex flex-row gap-3">
           <input
             type="file"
             accept="image/*"
@@ -72,13 +72,13 @@ export const ProfileImage = () => {
                 setProfilePhoto(e.target.files[0]);
               }
             }}
-            className="rounded border-1 border-pink-200 px-3 py-1 hover:bg-pink-300"
+            className="rounded border-1 border-pink px-3 py-1 hover:bg-pink text-dark-green w-70"
           />
           <button
-            className="bg-cream text-pink cursor-pointer rounded-full px-3 tracking-widest uppercase"
+            className="bg-cream text-pink cursor-pointer rounded-full px-3 w-9 h-9 tracking-widest uppercase"
             onClick={handleUpload}
           >
-            upload image
+           +
           </button>
         </div>
       ) : (

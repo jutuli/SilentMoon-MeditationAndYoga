@@ -32,7 +32,7 @@ export const LikeButton: React.FunctionComponent<Props> = ({ session_id }) => {
 
   return (
     <RoundButton
-      style={isLiked ? "bg-cream text-pink" : "bg-pink text-cream"}
+      style={isLiked ? "bg-pink text-cream" :  "bg-cream text-pink"}
       content={faHeart}
       onClick={handleLike}
     />
