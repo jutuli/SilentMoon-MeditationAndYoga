@@ -2,17 +2,19 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import RoundButton from "../components/RoundButton";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useMainContext } from "../context/MainProvider";
 import supabase from "../utils/supabase";
 
 const SignUp = () => {
-  const { setUser, setIsLoggedIn, setAuthOrigin} = useMainContext();
+  const { setUser, setIsLoggedIn, setAuthOrigin } = useMainContext();
 
   const userNameRef = useRef<HTMLInputElement>(null);
   const userSurNameRef = useRef<HTMLInputElement>(null);
-  const userEmailRef = useRef<HTMLInputElement>(null);
-  const userPwRef = useRef<HTMLInputElement>(null);
+
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [signUpError, setSignUpError] = useState<string>();
 
   const navigate = useNavigate();
 
@@ -21,21 +23,23 @@ const SignUp = () => {
 
     const userName = userNameRef.current?.value || "";
     const userSurName = userSurNameRef.current?.value || "";
-    const userEmail = userEmailRef.current?.value || "";
-    const userPw = userPwRef.current?.value || "";
 
-    console.log(userName);
-    console.log(userSurName);
-    console.log(userEmail);
-    console.log(userPw);
+    if (!email) {
+      setSignUpError("Please provide an email to create an account!");
+      return;
+    }
+    if (!password) {
+      setSignUpError("Please provide a password to create an account!");
+      return;
+    }
 
     try {
       const { data, error } = await supabase.auth.signUp({
-        email: userEmail,
-        password: userPw,
+        email: email,
+        password: password,
         options: {
           data: {
-            email: userEmail,
+            email: email,
             first_name: userName,
             last_name: userSurName,
           },
@@ -45,19 +49,25 @@ const SignUp = () => {
       const userId = data.user?.id;
 
       if (error || !userId) {
-        console.warn("SignUp hat nicht geklappt", error);
+        console.warn("SignUp hat nicht geklappt", { error });
+        if (error?.code === "user_already_exists") {
+          setSignUpError("Email already in use, please try another one.");
+        }
+        if (error?.code === "weak_password") {
+          setSignUpError("Password should be at least 6 characters.");
+        }
       } else {
         console.log(data);
         setUser({
           ...data.user,
           id: userId,
-          email: userEmail,
+          email: email,
           first_name: userName,
           last_name: userSurName,
         });
         setIsLoggedIn(true);
         //für untersch. Pfade
-        setAuthOrigin("signup")
+        setAuthOrigin("signup");
         navigate("/welcome");
       }
     } catch (error) {
@@ -82,25 +92,40 @@ const SignUp = () => {
             type="text"
             placeholder="Name"
             ref={userNameRef}
+            required
           />
           <input
             className="border-pink w-full cursor-pointer rounded-full border py-4 text-center tracking-widest uppercase"
             type="text"
             placeholder="Surname"
             ref={userSurNameRef}
+            required
           />
           <input
             className="border-pink w-full cursor-pointer rounded-full border py-4 text-center tracking-widest uppercase"
             type="email"
             placeholder="Email"
-            ref={userEmailRef}
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              setSignUpError(undefined);
+            }}
+            required
           />
           <input
             className="border-pink w-full cursor-pointer rounded-full border py-4 text-center tracking-widest uppercase"
             type="password"
             placeholder="Password"
-            ref={userPwRef}
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+              setSignUpError(undefined);
+            }}
+            required
           />
+          {signUpError && (
+            <div className="text-center text-red-700 italic">{signUpError}</div>
+          )}
           <Button text="Register" />
         </form>
       </section>
