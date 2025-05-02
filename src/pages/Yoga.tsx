@@ -109,8 +109,8 @@ const Yoga = () => {
         <SearchField doSearch={setSearchTerm} />
       </div>
 
-      <div className="mx-5 grid grid-cols-2 gap-4">
-        {filteredSessions
+      <div className={filteredSessions && filteredSessions.length > 0 ? "grid grid-cols-2 gap-3 px-5" : ""}>
+        {filteredSessions && filteredSessions.length > 0 ? (filteredSessions
           ?.sort(() => Math.random() - 0.5)
           .map((entry) => {
             return (
@@ -120,7 +120,7 @@ const Yoga = () => {
                 </div>
               )
             );
-          })}
+          })) : (<p className="text-dark-green font-bold text-center pt-10">No Yoga or Meditation sessions match your search. Try adjusting your search</p>)}
       </div>
     </section>
   );

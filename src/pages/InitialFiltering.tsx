@@ -36,7 +36,7 @@ const InitialFiltering = () => {
        <div className="pb-10">
         <SilentMoon/>
        </div>
-        <article>
+        <article className="pb-10">
           <h2 className="text-dark-green text-lg font-bold tracking-wider">
             Would you like to choose a few topics to focus on today?
           </h2>
