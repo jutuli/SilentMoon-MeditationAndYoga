@@ -2,22 +2,30 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import RoundButton from "../components/RoundButton";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useRef } from "react";
+import { useState } from "react";
 import supabase from "../utils/supabase";
 import { useMainContext } from "../context/MainProvider";
 
 const SignIn = () => {
   const { setUser, setAuthOrigin } = useMainContext();
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loginError, setLoginError] = useState<string>();
 
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const email = emailRef.current?.value || "";
-    const password = passwordRef.current?.value || "";
+    if (!email) {
+      setLoginError("Please provide your email adress to log in.");
+      return;
+    }
+    if (!password) {
+      setLoginError("Please provide your password to log in.");
+      return;
+    }
 
     try {
       const response = await supabase.auth.signInWithPassword({
@@ -38,11 +46,12 @@ const SignIn = () => {
         }
 
         //um unterschiedliche Pfade nach welcome zu gehen
-        setAuthOrigin("signin")
-        navigate("/welcome")
+        setAuthOrigin("signin");
+        navigate("/welcome");
       }
-      //TODO: Eventuell eine Fehlermeldung anzeigen, bei fehlgeschlagenem Login
+      setLoginError("login unsuccesfull, please try again");
     } catch (error) {
+      setLoginError("login unsuccesfull, please try again");
       console.warn(error);
     }
   };
@@ -62,14 +71,25 @@ const SignIn = () => {
           className="border-pink w-full cursor-pointer rounded-full border py-4 text-center tracking-widest uppercase"
           type="email"
           placeholder="Email"
-          ref={emailRef}
+          value={email}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setLoginError(undefined);
+          }}
         />
         <input
           className="border-pink w-full cursor-pointer rounded-full border py-4 text-center tracking-widest uppercase"
           type="password"
           placeholder="Password"
-          ref={passwordRef}
+          value={password}
+          onChange={(event) => {
+            setPassword(event.target.value);
+            setLoginError(undefined);
+          }}
         />
+        {loginError && (
+          <div className="text-center text-red-700 italic">{loginError}</div>
+        )}
         <Button text="Login" />
         <div className="flex flex-row justify-center gap-3">
           <p className="text-gray tracking-widest uppercase">
