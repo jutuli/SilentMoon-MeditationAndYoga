@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Button from "../components/Button";
 import DayPicker from "../components/DayPicker";
 import SilentMoon from "../components/SilentMoon";
@@ -8,12 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { useMainContext } from "../context/MainProvider";
 
 const Reminder = () => {
-  const { reminderOrigin, setReminderOrigin } = useMainContext();
+  const {
+    reminderOrigin,
+    setReminderOrigin,
+    selectedDays,
+    selectedTime,
+    setSelectedDays,
+    setSelectedTime,
+  } = useMainContext();
 
   const navigate = useNavigate();
-
-  const [selectedTime, setSelectedTime] = useState<string>("");
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
   const handleSave = async () => {
     const {

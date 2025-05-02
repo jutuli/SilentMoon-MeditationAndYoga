@@ -29,6 +29,10 @@ interface IMainContext {
   setAuthOrigin: Dispatch<SetStateAction<"signin" | "signup" | null>>;
   reminderOrigin: "profile" | "welcome" | null;
   setReminderOrigin: Dispatch<SetStateAction<"profile" | "welcome" | null>>;
+  selectedTime: string;
+  setSelectedTime: Dispatch<SetStateAction<string>>;
+  selectedDays: string[];
+  setSelectedDays: Dispatch<SetStateAction<string[]>>;
 }
 
 export const mainContext = createContext<IMainContext | undefined>(undefined);
@@ -55,6 +59,9 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
   const [reminderOrigin, setReminderOrigin] = useState<
     "profile" | "welcome" | null
   >(null);
+
+  const [selectedTime, setSelectedTime] = useState<string>("");
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
   // fetch favourites if a user is logged in
   const updateFavourites = async () => {
@@ -117,6 +124,10 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     setAuthOrigin,
     reminderOrigin,
     setReminderOrigin,
+    selectedTime,
+    setSelectedTime,
+    selectedDays,
+    setSelectedDays,
   };
 
   return <mainContext.Provider value={value}>{children}</mainContext.Provider>;
