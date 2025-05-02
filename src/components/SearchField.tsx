@@ -12,6 +12,7 @@ export default function SearchField({doSearch}: ISearchFieldProps) {
           type="text"
           className="relative w-full overflow-hidden rounded-3xl bg-gray-100 px-5 py-2"
           onChange={(e)=> doSearch(e.target.value)}
+          placeholder="Type in what you're looking for..."
         />
       </div>
     </>

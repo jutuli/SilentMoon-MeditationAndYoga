@@ -56,11 +56,11 @@ export const ProfileImage = () => {
               "../../public/img/vecteezy_user-avatar-line-style_.jpg"
             }
             alt="hier kommt ein profilbild hin"
-            className="w-28"
+            className="w-22"
           />
         </div>
 
-        <h1 className="text-2xl font-bold">{user.first_name}</h1>
+        <h1 className="text-2xl font-bold text-dark-green">Hi {user.first_name}!</h1>
       </div>
       {isEditing ? (
         <div>
@@ -82,7 +82,9 @@ export const ProfileImage = () => {
           </button>
         </div>
       ) : (
-        <ProfileButton onClick={() => setIsEditing(true)} name="Change Image" />
+        <div className="relative">
+          <ProfileButton onClick={() => setIsEditing(true)} name="+" />
+        </div>
       )}
     </>
   );

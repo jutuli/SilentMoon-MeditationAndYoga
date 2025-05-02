@@ -9,7 +9,7 @@ export const ProfileButton: React.FunctionComponent<Props> = ({
 }) => {
   return (
     <button
-      className="bg-cream text-pink cursor-pointer rounded-full px-3 tracking-widest uppercase"
+      className="bg-cream text-pink cursor-pointer rounded-full px-3 w-10 h-10 tracking-widest uppercase absolute -top-7 left-15 z-10"
       onClick={onClick}
     >
       {name}

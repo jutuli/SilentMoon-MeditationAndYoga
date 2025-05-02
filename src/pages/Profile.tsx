@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Headline from "../components/Headline";
 import { Logout } from "../components/Logout";
 import { ProfileButton } from "../components/ProfileButton";
@@ -6,8 +6,13 @@ import { ProfileImage } from "../components/ProfileImage";
 import SearchField from "../components/SearchField";
 import Slider from "../components/Slider";
 import { useMainContext } from "../context/MainProvider";
+import RoundButton from "../components/RoundButton";
+import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 
 const Profile = () => {
+
+  const navigate = useNavigate()
+
   const { favouriteSessions, user } = useMainContext();
 
   const favouriteMeditations = favouriteSessions.filter(
@@ -19,14 +24,23 @@ const Profile = () => {
   );
   if (!user) return;
 
+  const handleSearch = () => {
+
+  }
+
   return (
-    <div className="mx-1">
+    <div className="px-5 pb-25">
       <Headline />
       <Logout />
+      <RoundButton content={faCalendarDays} style="bg-cream fixed top-2 left-2 m-2 z-10" onClick={()=>navigate("/reminder")}/>
 
-      {/* <SearchField /> */}
+      
+      <div className="pb-10">
       <ProfileImage />
-      <div>
+      </div>
+   <article className="flex flex-col justify-around gap-5">
+      <SearchField doSearch={handleSearch}/>
+   <div>
         <Slider
           headline="Favourite Yoga Sessions"
           sessions={favouriteYoga}
@@ -42,9 +56,7 @@ const Profile = () => {
           sessions={favouriteMeditations}
         />
       </div>
-      <Link to="/reminder">
-        <ProfileButton name="Reminder" />
-      </Link>
+   </article>
     </div>
   );
 };

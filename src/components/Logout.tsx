@@ -27,7 +27,7 @@ export const Logout = () => {
     <>
       {isLoggedIn && (
         <RoundButton
-          style="fixed top-0 right-0 m-2"
+          style="fixed top-2 right-2 m-2 bg-cream z-10"
           content={faPowerOff}
           onClick={handleLogout}
         />
