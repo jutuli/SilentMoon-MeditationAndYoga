@@ -1,54 +1,114 @@
-# React + TypeScript + Vite
+# Silent Moon - Yoga and Meditation App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+Namasté. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is the Silent Moon WebApp. 
+Silentmoon is a platform that offers users a calm and enriching yoga and meditation experience.
+After registering, you can navigate the app using a navigation bar. 
 
-## Expanding the ESLint configuration
+Here you can choose between different meditations or yoga sessions. A music playlist with gentle sounds is also available. A meditation reminder can be set up, as well as an initial filter when launching the app. The yoga sessions include videos that you can join in with directly. This README file guides you through the installation, features, and technologies used in the app.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+<!-- 
+ ## Table of Contens
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Design](#design)
+- [Third-Party Libraries & Tools](#third-party-libraries--tools)
+- [Contributors](#contributors) -->
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Features
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+The Silentmoon app has the following features:
+
+- **User Registration**: Users can create accounts to personalize their experience.
+- **Video & Playlist Exploration**: Users can browse a collection of yoga videos and playlists.
+- **Playlist Management**: Registered users can create and delete their own playlists.
+- **Mobile-based**: The app is accessible on mobile with minimal loss of functionality.
+- **Reminder**: Users can set a reminder for their next meditation session.
+- **Filter**: Users can filter the videos by mood and several categories.
+- **Search**: Users can search for videos and playlists by title.
+- **Favorites**: Users can add videos to their favorites.
+
+## Tech Stack
+
+The Silentmoon app uses the following technologies:
+
+- **Frontend**: React, HTML, CSS
+- **Backend**: supabase
+- **API Integration**: SOUNDCLOUD Widget API
+- **Design Tools**: Figma
+- **Version Control**: Git
+- **Deployment**: ...
+- **Communication**: Discord
+- **Project Management**: Figma
+
+## Getting Started 
+
+To run Silentmoon on your local machine, follow these steps:
+
+## Installation
+
+1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/jutuli/SilentMoon-MeditationAndYoga.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd SilentMoon-MeditationAndYoga
+   ```
+
+3. Install frontend and backend dependencies:
+
+   ```bash
+   npm install
+   ```
+
+## Usage
+
+1. Start the app:
+
+   ```bash
+   npm run dev
+   ```
+
+1. Open the app in your browser at http://localhost:3000.
+
+3. Register a new account or log in with the following credentials:
+
+   ```bash
+   email:
+    password:
+   ```
+
+4. Explore the app!
+
+5. To stop the server, press `Ctrl + C`.
+
+
+## Design
+
+The app's UI/UX was designed and Figma The app's wireframes were designed using Figma
+
+
+## Third-Party Libraries & Tools
+
+The Silentmoon app uses the following third-party libraries:
+
+- `react-router-dom` - DOM bindings for React Router.
+
+## Contributors
+
+Special thanks to the following contributors for their hard work on this project:
+
+- [jutuli](https://github.com/jutuli)
+- [Yvi](https://github.com/YvonneJL)
+- [DeborahAleaKoch](https://github.com/DeborahAleaKoch)
