@@ -1,32 +1,41 @@
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import Headline from "../components/Headline";
 import { Logout } from "../components/Logout";
-import { ProfileButton } from "../components/ProfileButton";
 import { ProfileImage } from "../components/ProfileImage";
 import SearchField from "../components/SearchField";
 import Slider from "../components/Slider";
 import { useMainContext } from "../context/MainProvider";
 import RoundButton from "../components/RoundButton";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
 const Profile = () => {
 
   const navigate = useNavigate()
 
+  const [searchTerm, setSearchTerm] = useState<string>("")
+
   const { favouriteSessions, user } = useMainContext();
 
-  const favouriteMeditations = favouriteSessions.filter(
+
+
+  const filteredFavourites = favouriteSessions.filter((session) => {
+    return (
+      !searchTerm ||
+      session.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      session.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+  const favouriteMeditations = filteredFavourites.filter(
     (session) => session.media_type === "soundcloud",
   );
 
-  const favouriteYoga = favouriteSessions.filter(
+  const favouriteYoga = filteredFavourites.filter(
     (session) => session.media_type === "youtube",
   );
   if (!user) return;
 
-  const handleSearch = () => {
-
-  }
 
   return (
     <div className="px-5 pb-25">
@@ -39,7 +48,7 @@ const Profile = () => {
       <ProfileImage />
       </div>
    <article className="flex flex-col justify-around gap-5">
-      <SearchField doSearch={handleSearch}/>
+      <SearchField doSearch={setSearchTerm}/>
    <div>
         <Slider
           headline="Favourite Yoga Sessions"

@@ -97,8 +97,8 @@ const Meditate = () => {
       <SearchField doSearch={setSearchTerm} />
 
       <div className="grid grid-cols-2 gap-3">
-        {filteredSessions
-          ?.sort(() => Math.random() - 0.5)
+        {filteredSessions && filteredSessions.length > 0 ? (
+          filteredSessions?.sort(() => Math.random() - 0.5)
           .map((entry) => {
             return (
               entry.media_type === "soundcloud" && (
@@ -107,7 +107,7 @@ const Meditate = () => {
                 </div>
               )
             );
-          })}
+          })) : (<div className="flex justify-center items-center"><p className="text-dark-green font-bold text-center">Your search doesn't match with any session</p></div>)}
       </div>
     </div>
   );
