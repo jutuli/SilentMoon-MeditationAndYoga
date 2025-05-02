@@ -12,6 +12,7 @@ import { getFavourites, IFav } from "../api/favourites";
 import { ISession } from "../interfaces/ISession";
 import { getAllSessions } from "../api/sessions";
 import { updateUser } from "../api/user";
+import { ISessionYM } from "../pages/Yoga";
 
 interface IMainContext {
   user: IUser | null;
@@ -29,6 +30,16 @@ interface IMainContext {
   setAuthOrigin: Dispatch<SetStateAction<"signin" | "signup" | null>>;
   reminderOrigin: "profile" | "welcome" | null;
   setReminderOrigin: Dispatch<SetStateAction<"profile" | "welcome" | null>>;
+  sessionsYM: ISessionYM[] | null;
+  setSessionsYM: (sessions: ISessionYM[] | null) => void
+  activeFilter: string | "all" | "favourites" | null
+  setActiveFilter: (activeFilter: string | "all" | "favourites" | null) => void
+  activeTimeFilter: number | null
+  setActiveTimeFilter: (activeTimeFilter: number | null) => void
+  activeLevelFilter: string | null
+  setActiveLevelFilter: (activeLevelFilter: string | null) => void
+  searchTerm: string | ""
+  setSearchTerm: (searchTerm: string | "") => void
 }
 
 export const mainContext = createContext<IMainContext | undefined>(undefined);
@@ -47,6 +58,18 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
 
   const [favourites, setFavourites] = useState<IFav[]>([]);
   const [allSessions, setAllSessions] = useState<ISession[]>([]);
+
+  //states for Yoga and Meditate.tsx
+  const [sessionsYM, setSessionsYM] = useState<ISessionYM[] | null>([])
+  const [activeFilter, setActiveFilter] = useState<
+  string | "all" | "favourites" | null
+>("all");
+const [activeTimeFilter, setActiveTimeFilter] = useState<number | null>(null);
+const [activeLevelFilter, setActiveLevelFilter] = useState<string | null>(
+  null,
+);
+
+const [searchTerm, setSearchTerm] = useState<string | "">("");
 
   //für untersch Pfade noch login/signup bzw. reminder
   const [authOrigin, setAuthOrigin] = useState<"signin" | "signup" | null>(
@@ -117,6 +140,16 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     setAuthOrigin,
     reminderOrigin,
     setReminderOrigin,
+    sessionsYM,
+    setSessionsYM,
+    activeFilter,
+    setActiveFilter,
+    activeTimeFilter,
+    setActiveTimeFilter,
+    activeLevelFilter,
+    setActiveLevelFilter,
+    searchTerm,
+    setSearchTerm
   };
 
   return <mainContext.Provider value={value}>{children}</mainContext.Provider>;

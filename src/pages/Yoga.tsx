@@ -20,24 +20,16 @@ export interface ISessionYM {
 }
 
 const Yoga = () => {
-  const [sessions, setSessions] = useState<ISessionYM[] | undefined>();
-  const [activeFilter, setActiveFilter] = useState<
-    string | "all" | "favourites" | null
-  >("all");
-  const [activeTimeFilter, setActiveTimeFilter] = useState<number | null>(null);
-  const [activeLevelFilter, setActiveLevelFilter] = useState<string | null>(
-    null,
-  );
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  
 
-  const { favouriteSessions } = useMainContext();
+  const { favouriteSessions, sessionsYM, setSessionsYM, activeFilter, setActiveFilter, activeTimeFilter, setActiveTimeFilter, activeLevelFilter, setActiveLevelFilter, searchTerm, setSearchTerm} = useMainContext();
 
   useEffect(() => {
     const fetchData = async () => {
       const resp = await supabase.from("sessions").select("*, categories(*)");
 
       if (resp.data) {
-        setSessions(resp.data as unknown as ISessionYM[]);
+        setSessionsYM(resp.data as unknown as ISessionYM[]);
       }
       console.log(resp.data);
     };
@@ -67,7 +59,7 @@ const Yoga = () => {
   if (activeFilter === "favourites") {
     sessionsToDisplay = flatFavourites;
   } else {
-    sessionsToDisplay = sessions ?? [];
+    sessionsToDisplay = sessionsYM ?? [];
   }
 
   const filteredSessions = sessionsToDisplay?.filter((session) => {

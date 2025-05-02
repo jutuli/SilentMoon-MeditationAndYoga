@@ -20,9 +20,9 @@ const Home = () => {
   const [recommendedMeditation, setRecommendedMeditation] = useState<
     ISession[]
   >([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  //const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const {user} = useMainContext()
+  const {user, searchTerm, setSearchTerm} = useMainContext()
 
   const getGreeting = (name: string | undefined) => {
     const currentTime = new Date().getHours();
