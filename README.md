@@ -39,12 +39,11 @@ The Silentmoon app has the following features:
 
 The Silentmoon app uses the following technologies:
 
-- **Frontend**: React, HTML, CSS
+- **Frontend**: React, HTML, Tailwind CSS, DaisyUI, Font Awesome
 - **Backend**: supabase
 - **API Integration**: SOUNDCLOUD Widget API
-- **Design Tools**: Figma
 - **Version Control**: Git
-- **Deployment**: ...
+- **Deployment**: Vercel
 - **Communication**: Discord
 - **Project Management**: Figma
 

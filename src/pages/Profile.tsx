@@ -11,7 +11,7 @@ import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 const Profile = () => {
   const navigate = useNavigate();
 
-  //const [searchTerm, setSearchTerm] = useState<string>("");
+  
 
   const { favouriteSessions, user, setReminderOrigin, searchTerm, setSearchTerm } = useMainContext();
 

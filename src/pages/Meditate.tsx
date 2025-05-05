@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CategoryFilter from "../components/CategoryFilter";
 import supabase from "../utils/supabase";
 import SearchField from "../components/SearchField";
@@ -9,10 +9,6 @@ import { ISessionYM } from "./Yoga";
 import { useMainContext } from "../context/MainProvider";
 
 const Meditate = () => {
-  // const [activeLevel, setActiveLevel] = useState<string | null>(null);
-  //const [activeTime, setActiveTime] = useState<number | null>(null);
-  // const [searchTerm, setSearchTerm] = useState<string>("");
-
   const {
     favouriteSessions,
     sessionsYM,
@@ -34,7 +30,6 @@ const Meditate = () => {
       if (resp.data) {
         setSessionsYM(resp.data as unknown as ISessionYM[]);
       }
-      console.log(resp.data);
     };
     fetchData();
   }, []);

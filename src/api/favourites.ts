@@ -13,7 +13,7 @@ export const getFavourites = async () => {
     return resp.data as unknown as IFav[];
   }
 
-  console.log("unable to get Favourites", resp.data);
+  // console.log("unable to get Favourites", resp.data);
 
   return [];
 };

@@ -27,108 +27,139 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
+  const { setIsLoggedIn, user, isLoggedIn, setUser } = useMainContext();
+  console.log(user);
 
-const {setIsLoggedIn, user, isLoggedIn, setUser} = useMainContext()
-console.log(user);
+  const checkLoginStatus = async () => {
+    const { data: user } = await supabase.auth.getUser();
 
-const checkLoginStatus = async () => {
-  const {data: user} = await supabase
-  .auth
-  .getUser()
+    const { data: yogaUser, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", user.user?.id);
 
-  const {data: yogaUser, error} = await supabase
-  .from("users")
-  .select("*")
-  .eq("id", user.user?.id)
+    if (error) {
+      console.log("Der Userfetch hat in der App.tsx nicht geklappt", error);
+    } else {
+      setUser(yogaUser?.[0] || null);
+      setIsLoggedIn(true);
+    }
+  };
 
-  if (error) {
-    console.log("Der Userfetch hat in der App.tsx nicht geklappt", error);
-  } else {
-    setUser(yogaUser?.[0] || null)
-    setIsLoggedIn(true)
-    console.log(user);
-  }
-}
-
-useEffect(()=> {
-  checkLoginStatus()
-}, [setUser, isLoggedIn])
-
+  useEffect(() => {
+    checkLoginStatus();
+  }, [setUser, isLoggedIn]);
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Login />} />
-        <Route path="yoga" element={
-          <ProtectedRoute>
-          <Yoga />
-          </ProtectedRoute>
-          } />
+        <Route
+          path="yoga"
+          element={
+            <ProtectedRoute>
+              <Yoga />
+            </ProtectedRoute>
+          }
+        />
         <Route path="signin" element={<SignIn />} />
         <Route path="signup" element={<SignUp />} />
-        <Route path="welcome" element={
-          <ProtectedRoute>
-            <Welcome />
-          </ProtectedRoute>
-          } />
-        <Route path="home" element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-          } />
-        <Route path="meditate" element={
-          <ProtectedRoute>
-            <Meditate />
-          </ProtectedRoute>
-          } />
-        <Route path="music" element={
-          <ProtectedRoute>
-            <Music />
-          </ProtectedRoute>
-          } />
-        <Route path="profile" element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-          } />
-        <Route path="reminder" element={
-          <ProtectedRoute>
-            <Reminder />
-          </ProtectedRoute>
-          } />
-        <Route path="meditate/:meditateParams" element={
-          <ProtectedRoute>
-            <MeditateDetail />
-          </ProtectedRoute>
-          } />
+        <Route
+          path="welcome"
+          element={
+            <ProtectedRoute>
+              <Welcome />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="meditate"
+          element={
+            <ProtectedRoute>
+              <Meditate />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="music"
+          element={
+            <ProtectedRoute>
+              <Music />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="reminder"
+          element={
+            <ProtectedRoute>
+              <Reminder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="meditate/:meditateParams"
+          element={
+            <ProtectedRoute>
+              <MeditateDetail />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="meditate/:meditateParams/audio"
           element={
             <ProtectedRoute>
               <AudioPlayer />
             </ProtectedRoute>
-        }
+          }
         />
-        <Route path="/music/:musicId/player" element={
-          <ProtectedRoute>
-            <AudioPlayer />
-          </ProtectedRoute>
-          } />
-        <Route path="yoga/:yogaParams" element={
-          <ProtectedRoute>
-            <YogaDetail />
-          </ProtectedRoute>
-          } />
-        <Route path="yoga/:yogaParams/video" element={
-          <ProtectedRoute>
-            <VideoPlayer />
-          </ProtectedRoute>
-          } />
-        <Route path="initialfilter" element={
-          <ProtectedRoute>
-            <InitialFiltering />
-          </ProtectedRoute>
-          } />
+        <Route
+          path="/music/:musicId/player"
+          element={
+            <ProtectedRoute>
+              <AudioPlayer />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="yoga/:yogaParams"
+          element={
+            <ProtectedRoute>
+              <YogaDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="yoga/:yogaParams/video"
+          element={
+            <ProtectedRoute>
+              <VideoPlayer />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="initialfilter"
+          element={
+            <ProtectedRoute>
+              <InitialFiltering />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Route>,
     ),

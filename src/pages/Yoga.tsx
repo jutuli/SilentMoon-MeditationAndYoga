@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CategoryFilter from "../components/CategoryFilter";
 import Headline from "../components/Headline";
 import SearchField from "../components/SearchField";
@@ -41,7 +41,6 @@ const Yoga = () => {
       if (resp.data) {
         setSessionsYM(resp.data as unknown as ISessionYM[]);
       }
-      console.log(resp.data);
     };
     fetchData();
   }, []);

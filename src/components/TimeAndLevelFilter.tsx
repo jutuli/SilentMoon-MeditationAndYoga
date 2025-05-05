@@ -22,7 +22,7 @@ const TimeAndLevelFilter = ({levelChange, timeChange}: ITimeAndLevelProps) => {
       if (resp.data) {
         setSessions(resp.data as unknown as ISession[]);
       }
-      console.log(resp.data);
+     
     };
     fetchData();
   }, []);

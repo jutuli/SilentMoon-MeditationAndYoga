@@ -18,7 +18,7 @@ export const ProfileImage = () => {
       .from("user-images")
       .upload(fileName, profilePhoto);
     console.log(data);
-    console.log(error);
+  
 
     if (error) {
       console.warn("fehler beim upload des Photos!");
@@ -34,7 +34,7 @@ export const ProfileImage = () => {
 
   const handleUpload = async () => {
     const uploadedImgUrl = await uploadPhoto();
-    console.log("handleUpload:", uploadedImgUrl);
+  
 
     if (!uploadedImgUrl) {
       return null;
@@ -43,7 +43,7 @@ export const ProfileImage = () => {
     setIsEditing(false);
   };
 
-  console.log("user im Profil", user);
+  // console.log("user im Profil", user);
 
   if (!user) return;
   return (
