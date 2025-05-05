@@ -1,4 +1,4 @@
-import { ISession } from "../pages/Yoga";
+import { ISession } from "../interfaces/ISession";
 import supabase from "../utils/supabase";
 
 export const getAllSessions = async () => {
@@ -7,7 +7,7 @@ export const getAllSessions = async () => {
     return resp.data as unknown as ISession[];
   }
 
-  console.log("unable to get All", resp.data);
+  // console.log("unable to get All", resp.data);
 
   return [];
 };

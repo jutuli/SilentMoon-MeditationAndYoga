@@ -32,7 +32,7 @@ const SignIn = () => {
         email: email,
         password: password,
       });
-      console.log("login response: ", response);
+ 
 
       if (!response.error) {
         const user = response.data.user;

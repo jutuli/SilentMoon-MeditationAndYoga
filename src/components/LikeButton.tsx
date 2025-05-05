@@ -13,7 +13,7 @@ export const LikeButton: React.FunctionComponent<Props> = ({ session_id }) => {
   const isLiked: boolean = favourites.some(
     (favourite) => favourite.session_id === session_id,
   );
-  //console.log("LikeButton:", favourites);
+
 
   const handleLike = async () => {
     if (!user) {

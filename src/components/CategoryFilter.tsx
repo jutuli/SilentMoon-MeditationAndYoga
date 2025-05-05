@@ -21,7 +21,7 @@ const CategoryFilter = ({ type, onFilterChange }: ICategoryFilterProps) => {
       console.log(error);
     } else {
       setCategories(data);
-      console.log(data);
+      
     }
   };
 

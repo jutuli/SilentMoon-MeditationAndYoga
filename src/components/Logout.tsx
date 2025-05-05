@@ -18,7 +18,7 @@ export const Logout = () => {
   const { isLoggedIn } = useMainContext();
 
   const handleLogout = () => {
-    console.log("logout button is clicked");
+ 
     logOut();
     navigate("/signin");
   };

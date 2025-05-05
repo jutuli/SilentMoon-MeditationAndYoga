@@ -45,7 +45,7 @@ const SignUp = () => {
           },
         },
       });
-      console.log("Userdata:", data);
+      
       const userId = data.user?.id;
 
       if (error || !userId) {
@@ -57,7 +57,7 @@ const SignUp = () => {
           setSignUpError("Password should be at least 6 characters.");
         }
       } else {
-        console.log(data);
+        
         setUser({
           ...data.user,
           id: userId,
