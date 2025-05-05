@@ -56,11 +56,13 @@ export const ProfileImage = () => {
               "../../public/img/vecteezy_user-avatar-line-style_.jpg"
             }
             alt="hier kommt ein profilbild hin"
-            className="w-22"
+            className="mb-2 w-22 rounded-full"
           />
         </div>
 
-        <h1 className="text-2xl font-bold text-dark-green">Hi {user.first_name}!</h1>
+        <h1 className="text-dark-green text-2xl font-bold">
+          Hi {user.first_name}!
+        </h1>
       </div>
       {isEditing ? (
         <div className="flex flex-row gap-3">
@@ -72,13 +74,13 @@ export const ProfileImage = () => {
                 setProfilePhoto(e.target.files[0]);
               }
             }}
-            className="rounded border-1 border-pink px-3 py-1 hover:bg-pink text-dark-green w-70"
+            className="border-pink hover:bg-pink text-dark-green w-70 rounded-full border-1 px-3 py-1"
           />
           <button
-            className="bg-cream text-pink cursor-pointer rounded-full px-3 w-9 h-9 tracking-widest uppercase"
+            className="bg-cream text-pink h-9 w-9 cursor-pointer rounded-full px-3 tracking-widest uppercase"
             onClick={handleUpload}
           >
-           +
+            +
           </button>
         </div>
       ) : (
