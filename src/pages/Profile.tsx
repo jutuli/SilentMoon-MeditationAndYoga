@@ -63,7 +63,7 @@ const Profile = () => {
     No matching Yoga or Meditation sessions found. Try adjusting your search.
   </p>
 ): (<article>
-  <div>
+  <div className="pb-10">
      <Slider
        headline="Favourite Yoga Sessions"
        sessions={favouriteYoga}
