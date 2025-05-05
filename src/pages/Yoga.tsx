@@ -20,9 +20,19 @@ export interface ISessionYM {
 }
 
 const Yoga = () => {
-  
-
-  const { favouriteSessions, sessionsYM, setSessionsYM, activeFilter, setActiveFilter, activeTimeFilter, setActiveTimeFilter, activeLevelFilter, setActiveLevelFilter, searchTerm, setSearchTerm} = useMainContext();
+  const {
+    favouriteSessions,
+    sessionsYM,
+    setSessionsYM,
+    activeFilter,
+    setActiveFilter,
+    activeTimeFilter,
+    setActiveTimeFilter,
+    activeLevelFilter,
+    setActiveLevelFilter,
+    searchTerm,
+    setSearchTerm,
+  } = useMainContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,13 +58,15 @@ const Yoga = () => {
     setActiveLevelFilter(filter ?? null);
   };
 
-
   let sessionsToDisplay: ISessionYM[] = [];
 
   //damit ich an die verschachtelte category id komme ohne die Typen zu ändern im MainProvider, weil sonst andere Konflikte (same in Yoga)
   const flatFavourites = favouriteSessions.map((session) => ({
     ...session,
-    category_id: typeof session.category_id === "object" ? session.category_id.id : session.category_id,
+    category_id:
+      typeof session.category_id === "object"
+        ? session.category_id.id
+        : session.category_id,
   }));
   if (activeFilter === "favourites") {
     sessionsToDisplay = flatFavourites;
@@ -64,7 +76,9 @@ const Yoga = () => {
 
   const filteredSessions = sessionsToDisplay?.filter((session) => {
     const passesCategory =
-      activeFilter === "all" || activeFilter === "favourites" || session.category_id === activeFilter;
+      activeFilter === "all" ||
+      activeFilter === "favourites" ||
+      session.category_id === activeFilter;
     const passesLevel =
       !activeLevelFilter || session.level === activeLevelFilter;
 
@@ -82,6 +96,12 @@ const Yoga = () => {
 
     return passesCategory && passesLevel && passesTime && passesSearch;
   });
+
+  useEffect(() => {
+    return () => {
+      setActiveFilter("all");
+    };
+  }, []);
 
   return (
     <section className="pb-25">
@@ -101,18 +121,31 @@ const Yoga = () => {
         <SearchField doSearch={setSearchTerm} />
       </div>
 
-      <div className={filteredSessions && filteredSessions.length > 0 ? "grid grid-cols-2 gap-3 px-5" : ""}>
-        {filteredSessions && filteredSessions.length > 0 ? (filteredSessions
-          ?.sort(() => Math.random() - 0.5)
-          .map((entry) => {
-            return (
-              entry.media_type === "youtube" && (
-                <div key={entry.id}>
-                  <SingleCart session={entry} style="h-50 w-full" />
-                </div>
-              )
-            );
-          })) : (<p className="text-dark-green font-bold text-center pt-10">No Yoga or Meditation sessions match your search. Try adjusting your search</p>)}
+      <div
+        className={
+          filteredSessions && filteredSessions.length > 0
+            ? "grid grid-cols-2 gap-3 px-5"
+            : ""
+        }
+      >
+        {filteredSessions && filteredSessions.length > 0 ? (
+          filteredSessions
+            ?.sort(() => Math.random() - 0.5)
+            .map((entry) => {
+              return (
+                entry.media_type === "youtube" && (
+                  <div key={entry.id}>
+                    <SingleCart session={entry} style="h-50 w-full" />
+                  </div>
+                )
+              );
+            })
+        ) : (
+          <p className="text-dark-green pt-10 text-center font-bold">
+            No Yoga or Meditation sessions match your search. Try adjusting your
+            search
+          </p>
+        )}
       </div>
     </section>
   );

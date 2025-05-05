@@ -8,15 +8,24 @@ import TimeAndLevelFilter from "../components/TimeAndLevelFilter";
 import { ISessionYM } from "./Yoga";
 import { useMainContext } from "../context/MainProvider";
 
-
 const Meditate = () => {
   // const [activeLevel, setActiveLevel] = useState<string | null>(null);
   //const [activeTime, setActiveTime] = useState<number | null>(null);
   // const [searchTerm, setSearchTerm] = useState<string>("");
 
-
-  const { favouriteSessions, sessionsYM, setSessionsYM, activeFilter, setActiveFilter, activeTimeFilter, setActiveTimeFilter, activeLevelFilter, setActiveLevelFilter, searchTerm, setSearchTerm} = useMainContext();
-
+  const {
+    favouriteSessions,
+    sessionsYM,
+    setSessionsYM,
+    activeFilter,
+    setActiveFilter,
+    activeTimeFilter,
+    setActiveTimeFilter,
+    activeLevelFilter,
+    setActiveLevelFilter,
+    searchTerm,
+    setSearchTerm,
+  } = useMainContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,12 +51,14 @@ const Meditate = () => {
     setActiveTimeFilter(time);
   };
 
-
   let sessionsToDisplay: ISessionYM[] = [];
 
   const flatFavourites = favouriteSessions.map((session) => ({
     ...session,
-    category_id: typeof session.category_id === "object" ? session.category_id.id : session.category_id,
+    category_id:
+      typeof session.category_id === "object"
+        ? session.category_id.id
+        : session.category_id,
   }));
 
   if (activeFilter === "favourites") {
@@ -55,16 +66,20 @@ const Meditate = () => {
   } else {
     sessionsToDisplay = sessionsYM ?? [];
   }
-  
 
   const filteredSessions = sessionsToDisplay?.filter((session) => {
     const passesCategory =
-      activeFilter === "all" || activeFilter === "favourites" || session.category_id === activeFilter;
-    const passesLevel = !activeLevelFilter || session.level === activeLevelFilter;
+      activeFilter === "all" ||
+      activeFilter === "favourites" ||
+      session.category_id === activeFilter;
+    const passesLevel =
+      !activeLevelFilter || session.level === activeLevelFilter;
     const passesTime =
       !activeTimeFilter ||
       (activeTimeFilter === 1 && session.duration < 15) ||
-      (activeTimeFilter === 2 && session.duration >= 15 && session.duration < 27) ||
+      (activeTimeFilter === 2 &&
+        session.duration >= 15 &&
+        session.duration < 27) ||
       (activeTimeFilter === 3 && session.duration >= 27);
 
     const passesSearch =
@@ -75,8 +90,14 @@ const Meditate = () => {
     return passesCategory && passesLevel && passesTime && passesSearch;
   });
 
+  useEffect(() => {
+    return () => {
+      setActiveFilter("all");
+    };
+  }, []);
+
   return (
-    <div className="px-5 pb-25 w-screen">
+    <div className="w-screen px-5 pb-25">
       <Headline
         name="Meditate"
         description="Audio-only meditation techniques to help you minimize your screen time and practice on the go."
@@ -92,18 +113,31 @@ const Meditate = () => {
 
       <SearchField doSearch={setSearchTerm} />
 
-      <div className={filteredSessions && filteredSessions.length > 0 ? "grid grid-cols-2 gap-3" : ""}>
+      <div
+        className={
+          filteredSessions && filteredSessions.length > 0
+            ? "grid grid-cols-2 gap-3"
+            : ""
+        }
+      >
         {filteredSessions && filteredSessions.length > 0 ? (
-          filteredSessions?.sort(() => Math.random() - 0.5)
-          .map((entry) => {
-            return (
-              entry.media_type === "soundcloud" && (
-                <div key={entry.id}>
-                  <SingleCart session={entry} style="h-50 w-full" />
-                </div>
-              )
-            );
-          })) : (<p className="text-dark-green font-bold text-center pt-10">No Yoga or Meditation sessions match your search. Try adjusting your search</p>)}
+          filteredSessions
+            ?.sort(() => Math.random() - 0.5)
+            .map((entry) => {
+              return (
+                entry.media_type === "soundcloud" && (
+                  <div key={entry.id}>
+                    <SingleCart session={entry} style="h-50 w-full" />
+                  </div>
+                )
+              );
+            })
+        ) : (
+          <p className="text-dark-green pt-10 text-center font-bold">
+            No Yoga or Meditation sessions match your search. Try adjusting your
+            search
+          </p>
+        )}
       </div>
     </div>
   );
