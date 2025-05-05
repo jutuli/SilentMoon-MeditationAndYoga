@@ -7,6 +7,7 @@ import Slider from "../components/Slider";
 import { useMainContext } from "../context/MainProvider";
 import RoundButton from "../components/RoundButton";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -31,6 +32,12 @@ const Profile = () => {
     (session) => session.media_type === "youtube",
   );
   if (!user) return;
+
+  useEffect(() => {
+    return () => {
+      setSearchTerm(""); // Reset Search-Feld beim Verlassen der Seite
+    };
+  }, []);
 
   return (
     <div className="px-5 pb-25">

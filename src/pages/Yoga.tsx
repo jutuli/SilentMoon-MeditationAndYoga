@@ -99,6 +99,7 @@ const Yoga = () => {
   useEffect(() => {
     return () => {
       setActiveFilter("all");
+      setSearchTerm("");
     };
   }, []);
 

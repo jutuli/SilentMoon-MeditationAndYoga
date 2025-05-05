@@ -88,6 +88,7 @@ const Meditate = () => {
   useEffect(() => {
     return () => {
       setActiveFilter("all");
+      setSearchTerm("");
     };
   }, []);
 

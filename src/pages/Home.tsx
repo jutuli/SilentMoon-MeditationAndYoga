@@ -149,6 +149,12 @@ const Home = () => {
     fetchRecommendations();
   }, [selectedFilters]);
 
+  useEffect(() => {
+    return () => {
+      setSearchTerm(""); // Reset Search-Feld beim Verlassen der Seite
+    };
+  }, []);
+
   return (
     <section className="flex flex-col gap-5 px-5 pb-25">
       <SilentMoon />
