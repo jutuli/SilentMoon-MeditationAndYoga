@@ -53,7 +53,7 @@ export const ProfileImage = () => {
           <img
             src={
               user.image_url ??
-              "../../public/img/vecteezy_user-avatar-line-style_.jpg"
+              "/img/vecteezy_user-avatar-line-style_.jpg"
             }
             alt="hier kommt ein profilbild hin"
             className="mb-2 w-22 rounded-full"
