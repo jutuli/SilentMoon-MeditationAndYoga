@@ -7,6 +7,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import supabase from "../utils/supabase";
+import type { Session } from "@supabase/supabase-js";
 import { IUser } from "../interfaces/IUser";
 import { getFavourites, IFav } from "../api/favourites";
 import { ISession } from "../interfaces/ISession";
@@ -19,6 +21,7 @@ interface IMainContext {
   setUser: (user: IUser | null) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
+  loading: boolean;
   favourites: IFav[];
   updateFavourites: () => void;
   allSessions: ISession[];
@@ -59,6 +62,7 @@ export const useMainContext = () => {
 const MainProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [favourites, setFavourites] = useState<IFav[]>([]);
   const [allSessions, setAllSessions] = useState<ISession[]>([]);
@@ -91,10 +95,66 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     const fetchedFavourites = await getFavourites();
     setFavourites(fetchedFavourites);
   };
+
   useEffect(() => {
-    updateFavourites();
-    updateAllSessions();
+    setLoading(true);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        const supabaseUser = session.user;
+        const appUser: IUser = {
+          id: supabaseUser.id,
+          email: supabaseUser.email ?? "",
+          first_name: supabaseUser.user_metadata?.first_name ?? "",
+          last_name: supabaseUser.user_metadata?.last_name ?? "",
+          image_url:
+            supabaseUser.user_metadata?.avatar_url ??
+            supabaseUser.user_metadata?.image_url ??
+            "",
+        };
+        setUser(appUser);
+        setIsLoggedIn(true);
+      }
+      setLoading(false);
+    });
+
+    // Listener für Auth State Änderungen
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(
+      (_event, newSession: Session | null) => {
+        if (newSession) {
+          const supabaseUser = newSession.user;
+          const appUser: IUser = {
+            id: supabaseUser.id,
+            email: supabaseUser.email ?? "",
+            first_name: supabaseUser.user_metadata?.first_name ?? "",
+            last_name: supabaseUser.user_metadata?.last_name ?? "",
+            image_url:
+              supabaseUser.user_metadata?.avatar_url ??
+              supabaseUser.user_metadata?.image_url ??
+              "",
+          };
+          setUser(appUser);
+          setIsLoggedIn(true);
+        } else {
+          setUser(null);
+          setIsLoggedIn(false);
+        }
+        setLoading(false);
+      },
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      updateFavourites();
+      updateAllSessions();
+    }
+  }, [isLoggedIn]);
 
   const updateAllSessions = async () => {
     const fetchSessions = await getAllSessions();
@@ -105,18 +165,13 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     favourites.some((favourite) => favourite.session_id === session.id),
   );
 
-  // console.log(favouriteSessions);
-
   const meditationSessions = allSessions.filter(
     (session) => session.media_type === "soundcloud",
   );
 
-  // console.log(meditationSessions);
-
   const yogaSessions = allSessions.filter(
     (session) => session.media_type === "youtube",
   );
-  // console.log(yogaSessions);
 
   const updateUserImage = async (newImageUrl: string) => {
     if (user) {
@@ -136,6 +191,7 @@ const MainProvider = ({ children }: { children: ReactNode }) => {
     setUser,
     isLoggedIn,
     setIsLoggedIn,
+    loading, // Add loading to context value
     favourites,
     updateFavourites,
     allSessions,
